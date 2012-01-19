@@ -9,10 +9,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
 
+import com.simpleglengine.OpenGLES10Renderer;
 import com.simpleglengine.shapes.Texture;
+import com.simpleglengine.shapes.sprite.Sprite;
 
 public class TextureManager {
 	private Context mContext;
+	private OpenGLES10Renderer copyOfOpenGLES10Renderer;
 	private GL10 gl;
 
 	private int mTextureNumber;
@@ -23,12 +26,16 @@ public class TextureManager {
 
 		this.mTextureNumber = 0;
 		mTextures = new int[0];
+		
+		this.mContext = context;
+		this.gl = gl;
 	}
 
 	public Texture loadTextureFromBitmap(Bitmap bitmap) {
 		int [] textures = mTextures.clone();
-
-		gl.glDeleteTextures(mTextureNumber, mTextures, 0);
+		
+		if(mTextures.length > 0)
+			gl.glDeleteTextures(mTextureNumber, mTextures, 0);
 
 		mTextures = new int[mTextureNumber+1];
 		gl.glGenTextures(mTextureNumber+1, mTextures, 0);
@@ -43,7 +50,7 @@ public class TextureManager {
 
 		this.mTextureNumber++;
 		
-		return new Texture(mTextures[mTextureNumber]);
+		return new Texture(mTextures[mTextureNumber-1], bitmap.getWidth(), bitmap.getHeight());
 	}
 	public Texture loadTextureRegionFromBitmap(Bitmap bitmap, int xOffset, int yOffset, int width, int height) {
 		int [] textures = mTextures.clone();
@@ -68,6 +75,9 @@ public class TextureManager {
 
 		this.mTextureNumber++;
 		
-		return new Texture(mTextures[mTextureNumber]);
+		return new Texture(mTextures[mTextureNumber-1], width, height);
 	}
+
+	
+	
 }

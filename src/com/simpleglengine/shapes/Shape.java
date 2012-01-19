@@ -1,5 +1,7 @@
 package com.simpleglengine.shapes;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public abstract class Shape {
@@ -9,6 +11,7 @@ public abstract class Shape {
 
 	protected FloatBuffer mVertexBuffer;
 	protected Texture mTexture = null;
+	protected float [] mVertex = null, mNoScaledVertex = null;
 
 	protected Shape(int x, int y) {
 		super();
@@ -20,21 +23,32 @@ public abstract class Shape {
 		this.mY = y;		
 	}
 	
-	protected void translate(int dX, int dY) {
+	public void translate(int dX, int dY) {
 		this.mX += dX;
 		this.mY += dY;
 	}
-	protected void translateX(int dX) {
+	public void translateX(int dX) {
 		this.mX += dX;
 	}
-	protected void translateY(int dY) {
+	public void translateY(int dY) {
 		this.mY += dY;
 	}
-	protected void rotate(int angle) {
+	public void rotate(int angle) {
 		this.mRotation = angle;
 	}
-	protected void setRotationCenter(int x, int y) {
+	public void setRotationCenter(int x, int y) {
 		this.mXRotationCenter = x;
 		this.mYRotationCenter = y;
 	}
+	protected void loadVertexBuffer(float [] vertex) {
+		this.mVertex = vertex;
+		this.mNoScaledVertex = this.mVertex.clone();
+		
+		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertex.length * 4);
+		byteBuffer.order(ByteOrder.nativeOrder());
+		this.mVertexBuffer = byteBuffer.asFloatBuffer();
+		this.mVertexBuffer.put(vertex);
+		this.mVertexBuffer.position(0);
+	}
+	
 }

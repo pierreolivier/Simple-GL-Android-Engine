@@ -8,9 +8,15 @@ public class Texture {
 	private int mTextureId;
 	private FloatBuffer mTextureBuffer;
 	
-	public Texture(int textureId) {
+	private int mWidth, mHeight;
+	
+	public Texture(int textureId, int width, int height) {
 		// Set texture id
 		this.mTextureId = textureId;
+		
+		// Set width and height
+		this.mWidth = width;
+		this.mHeight = height;
 		
 		// Set coordinates on shape
 		float textureCoordinates[] = {
@@ -25,4 +31,22 @@ public class Texture {
 		this.mTextureBuffer.put(textureCoordinates);
 		this.mTextureBuffer.position(0);
 	}
+
+	public int getTextureId() {
+		return mTextureId;
+	}
+	public FloatBuffer getTextureBuffer() {
+		return mTextureBuffer;
+	}
+
+	public int getWidth() {
+		return mWidth;
+	}
+
+	public int getHeight() {
+		return mHeight;
+	}
+	
+	
+	
 }
