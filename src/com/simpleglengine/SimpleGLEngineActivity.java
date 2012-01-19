@@ -1,13 +1,51 @@
 package com.simpleglengine;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class SimpleGLEngineActivity extends Activity {
-    /** Called when the activity is first created. */
+    
+	private GLSurfaceView mGLView;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        super.onCreate(savedInstanceState);   
+        
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        mGLView = new OpenGLES10SurfaceView(this);
+        setContentView(mGLView);
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // The following call pauses the rendering thread.
+        // If your OpenGL application is memory intensive,
+        // you should consider de-allocating objects that
+        // consume significant memory here.
+        mGLView.onPause();
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // The following call resumes a paused rendering thread.
+        // If you de-allocated graphic objects for onPause()
+        // this is a good place to re-allocate them.
+        mGLView.onResume();
+    }
+    @Override
+    public void onConfigurationChanged(final Configuration newConfig)
+    {
+        // Ignore orientation change to keep activity from restarting
+        super.onConfigurationChanged(newConfig);
     }
 }
