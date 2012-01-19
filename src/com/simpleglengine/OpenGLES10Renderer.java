@@ -9,6 +9,8 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.simpleglengine.tools.BitmapTools;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,10 +34,10 @@ public class OpenGLES10Renderer implements Renderer {
 	private float ratio = 1.77916667f;
 	private int width = 854;
 	private int height = 480;
-
+	/*
 	float color[] = {
 			0.63671875f, 0.76953125f, 0.22265625f, 0.0f	
-	};
+	};*/
 
 	private Bitmap bitmap;
 	private int[] textures = new int[2];
@@ -87,8 +89,8 @@ public class OpenGLES10Renderer implements Renderer {
 		squareVB.put(square);
 		squareVB.position(0);
 
-		Bitmap bitmap = createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros), Color.rgb(255, 0, 255));
-		Bitmap bitmap2 = createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros2), Color.rgb(255, 0, 255));
+		Bitmap bitmap = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros), Color.rgb(255, 0, 255));
+		Bitmap bitmap2 = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros2), Color.rgb(255, 0, 255));
 		float textureCoordinates[] = {
 				0.0f, 0.0f,
 				0.0f, 1.0f,
@@ -101,7 +103,6 @@ public class OpenGLES10Renderer implements Renderer {
 		mTextureBuffer.put(textureCoordinates);
 		mTextureBuffer.position(0);
 
-
 		gl.glGenTextures(2, textures, 0);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);		
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
@@ -111,6 +112,8 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap2, 0);
+		
+		
 		bitmap.recycle();
 		bitmap2.recycle();
 	}
@@ -194,31 +197,6 @@ public class OpenGLES10Renderer implements Renderer {
 	public float dY(float y) {
 		return y(y)+1;
 	}
-	public Bitmap createTransparentBitmapFromBitmap(Bitmap bitmap, int replaceThisColor) {
-		if (bitmap != null) {
-			int picw = bitmap.getWidth();
-			int pich = bitmap.getHeight();
-			int[] pix = new int[picw * pich];
-			bitmap.getPixels(pix, 0, picw, 0, 0, picw, pich);
-
-			for (int y = 0; y < pich; y++) {
-				for (int x = 0; x < picw; x++) {
-					int index = y * picw + x;
-					int r = (pix[index] >> 16) & 0xff;
-					int g = (pix[index] >> 8) & 0xff;
-					int b = pix[index] & 0xff;
-
-					if (pix[index] == replaceThisColor) {
-						pix[index] = Color.TRANSPARENT;
-					}
-				}
-			}
-
-			Bitmap bm = Bitmap.createBitmap(pix, picw, pich, Bitmap.Config.ARGB_4444);
-
-			return bm;
-		}
-		return null;
-	}
+	
 
 }
