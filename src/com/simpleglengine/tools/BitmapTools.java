@@ -8,12 +8,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 public class BitmapTools {
-	public static Bitmap loadBitmapFromRessource(Context context, int RDrawable) {
-		return BitmapFactory.decodeResource(context.getResources(), RDrawable);
+	private static Context mContext;
+	
+	public static void setContext(Context context) {
+		mContext = context;
 	}
-	public static Bitmap loadBitmapFromRessource(Context context, int RDrawable, int transparentColor) {
-		Bitmap bitmap =  BitmapFactory.decodeResource(context.getResources(), RDrawable);
+	
+	public static Bitmap loadBitmapFromRessource(int RDrawable) {
+		return BitmapFactory.decodeResource(mContext.getResources(), RDrawable);
+	}
+	public static Bitmap loadBitmapFromRessource(int RDrawable, int transparentColor) {
+		Bitmap bitmap =  BitmapFactory.decodeResource(mContext.getResources(), RDrawable);
 		return createTransparentBitmapFromBitmap(bitmap, transparentColor);
+	}
+	public static Bitmap subBitmap(Bitmap bitmap, int x, int y, int width, int height) {
+		return Bitmap.createBitmap(bitmap, x, y, width, height);
 	}
 	public static Bitmap createTransparentBitmapFromBitmap(Bitmap bitmap, int replaceThisColor) {
 		if (bitmap != null) {

@@ -89,8 +89,8 @@ public class OldOpenGLES10Renderer implements Renderer {
 		squareVB.put(square);
 		squareVB.position(0);
 
-		Bitmap bitmap = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros), Color.rgb(255, 0, 255));
-		Bitmap bitmap2 = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.heros2), Color.rgb(255, 0, 255));
+		Bitmap bitmap = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
+		Bitmap bitmap2 = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
 		float textureCoordinates[] = {
 				0.0f, 0.0f,
 				0.0f, 1.0f,

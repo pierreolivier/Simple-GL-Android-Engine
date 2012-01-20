@@ -4,10 +4,16 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 public class OpenGLES10SurfaceView extends GLSurfaceView {
-	public OpenGLES10SurfaceView(Context context){
+	private OpenGLES10Renderer mRenderer;
+	public OpenGLES10SurfaceView(SimpleGLEngineActivity context){
         super(context);
         
-        //setRenderer(new OpenGLES10Renderer(context));
-        setRenderer(new OpenGLES10Renderer(context));
+        mRenderer = new OpenGLES10Renderer(context);
+        setRenderer(mRenderer);
     }
+	
+	public OpenGLES10Renderer getRenderer() {
+		return mRenderer;
+	}
+	
 }
