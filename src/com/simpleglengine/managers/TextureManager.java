@@ -72,7 +72,8 @@ public class TextureManager {
 		return new Texture(mTextures[mTextureNumber-1], bitmap.getWidth(), bitmap.getHeight());
 	}
 	public Texture loadTextureRegionFromBitmap(Bitmap bitmap, int xOffset, int yOffset, int width, int height) {
-		Bitmap bmp = BitmapTools.subBitmap(bitmap, bitmap.getWidth() - (width  + xOffset), yOffset, width, height);
+		//Bitmap bmp = BitmapTools.subBitmap(bitmap, bitmap.getWidth() - (width  + xOffset), yOffset, width, height);
+		Bitmap bmp = BitmapTools.subBitmap(bitmap, xOffset, yOffset, width, height);
 		return loadTextureFromBitmap(bmp);
 	}
 

@@ -81,7 +81,8 @@ public class Sprite extends Shape {
 	@Override
 	public void onDraw(GL10 gl) {
 
-		float xCenter = ScreenTools.getWidth()/2, yCenter = ScreenTools.getHeight()/2;
+		//float xCenter = ScreenTools.getWidth()/2, yCenter = ScreenTools.getHeight()/2;
+		float xCenter = 0, yCenter = 0;
 
 		gl.glLoadIdentity();
 		
@@ -90,7 +91,7 @@ public class Sprite extends Shape {
 
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTexture.getTextureBuffer());
-
+		
 		gl.glTranslatef(ScreenTools.dX(-xCenter+super.mXRotationCenter+mX), ScreenTools.dY(-yCenter+super.mYRotationCenter+mY), 0); //Offset
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
 		gl.glTranslatef(ScreenTools.dX(xCenter-super.mXRotationCenter), ScreenTools.dY(yCenter-super.mXRotationCenter), 0); //Millieu + centre de rotation
@@ -99,7 +100,6 @@ public class Sprite extends Shape {
 
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
-		
 		
 
 	}

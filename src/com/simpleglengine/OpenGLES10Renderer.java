@@ -126,8 +126,14 @@ public class OpenGLES10Renderer implements Renderer {
 		// Set Camera
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
+		
+		//gl.glOrthof(ratio, -ratio, 1, -1, 3, 7);
+		//GLU.gluOrtho2D(gl, ratio, -ratio, 1, -1);
+		GLU.gluOrtho2D(gl, width , 0, height, 0);
+		/*
 		gl.glFrustumf(ratio, -ratio, 1, -1, 3, 7);
 		GLU.gluLookAt(gl, 0, 0, -3f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+		*/
 		
 		// Go to Model View Mode
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
