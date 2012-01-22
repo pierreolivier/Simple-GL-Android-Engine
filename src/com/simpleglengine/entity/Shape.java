@@ -9,6 +9,13 @@ import javax.microedition.khronos.opengles.GL10;
 import com.simpleglengine.engine.opengl.Texture;
 
 public abstract class Shape implements Entity {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 	protected float mX, mY;
 	protected int mRotation;
 	protected int mXRotationCenter, mYRotationCenter;
@@ -18,6 +25,9 @@ public abstract class Shape implements Entity {
 	protected float [] mVertex = null, mNoScaledVertex = null;
 	protected float mScale;
 
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 	protected Shape(int x, int y) {
 		super();
 		
@@ -30,7 +40,9 @@ public abstract class Shape implements Entity {
 		this.mScale = 1;
 	}
 	
-	
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
 	
 	public float getX() {
 		return mX;
@@ -41,12 +53,25 @@ public abstract class Shape implements Entity {
 	public int getRotation() {
 		return mRotation;
 	}
-
+	public void setRotation(int angle) {
+		this.mRotation = angle;
+	}
+	public void setRotationCenter(int x, int y) {
+		this.mXRotationCenter = x;
+		this.mYRotationCenter = y;
+	}
 	public void setPosition(float x, float y) {
 		this.mX = x;
 		this.mY = y;
 	}
 
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	public void translate(float dX, float dY) {
 		this.mX += dX;
 		this.mY += dY;
@@ -57,13 +82,8 @@ public abstract class Shape implements Entity {
 	public void translateY(float dY) {
 		this.mY += dY;
 	}
-	public void rotate(int angle) {
-		this.mRotation = angle;
-	}
-	public void setRotationCenter(int x, int y) {
-		this.mXRotationCenter = x;
-		this.mYRotationCenter = y;
-	}
+
+
 	protected void loadVertexBuffer(float [] vertex) {
 		this.mVertex = vertex;
 		this.mNoScaledVertex = this.mVertex.clone();

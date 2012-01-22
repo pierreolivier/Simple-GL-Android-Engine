@@ -24,7 +24,13 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class OldOpenGLES10Renderer implements Renderer {
+	// ===========================================================
+	// Constants
+	// ===========================================================
 
+	// ===========================================================
+	// Fields
+	// ===========================================================
 
 	private Context context;
 

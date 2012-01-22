@@ -129,7 +129,7 @@ public class PhysicsHandler {
 			/* Apply angular velocity. */
 			final float angularVelocity = this.mAngularVelocity;
 			if(angularVelocity != 0) {
-				pEntity.rotate((int) (pEntity.getRotation() + angularVelocity * pSecondsElapsed));
+				pEntity.setRotation((int) (pEntity.getRotation() + angularVelocity * pSecondsElapsed));
 			}
 
 			/* Apply linear velocity. */

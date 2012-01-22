@@ -5,11 +5,21 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class Texture {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 	private int mTextureId;
 	private FloatBuffer mTextureBuffer;
 	
 	private int mWidth, mHeight;
 	
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 	public Texture(int textureId, int width, int height) {
 		// Set texture id
 		this.mTextureId = textureId;
@@ -32,6 +42,9 @@ public class Texture {
 		this.mTextureBuffer.position(0);
 	}
 
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
 	public int getTextureId() {
 		return mTextureId;
 	}
@@ -46,6 +59,14 @@ public class Texture {
 	public int getHeight() {
 		return mHeight;
 	}
+	
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	
 	
 	

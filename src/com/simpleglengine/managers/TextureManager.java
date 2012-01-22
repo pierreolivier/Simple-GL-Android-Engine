@@ -15,11 +15,21 @@ import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.tools.BitmapTools;
 
 public class TextureManager {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 	private GL10 gl;
 
 	private int mTextureNumber;
 	private int[] mTextures;
 
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 	public TextureManager(Context context, GL10 gl) {
 		super();
 
@@ -31,6 +41,17 @@ public class TextureManager {
 		BitmapTools.setContext(context);
 	}
 
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 	public Texture loadTextureFromBitmap(Bitmap bitmap) {
 		int [] textures = mTextures.clone();
 

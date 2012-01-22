@@ -13,9 +13,26 @@ import android.view.WindowManager;
 
 public abstract class SimpleGLEngineActivity extends Activity {
     
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 	private OpenGLES10SurfaceView mGLView;
 	private OpenGLES10Renderer mRenderer;
 	
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+	public TextureManager getTextureManager() {
+    	return mRenderer.getTextureManager();
+    }
+	
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);   
@@ -33,11 +50,7 @@ public abstract class SimpleGLEngineActivity extends Activity {
         // Loading app
         //View init fonction in OpenGLES10Renderer
         
-    }
-    
-    public TextureManager getTextureManager() {
-    	return mRenderer.getTextureManager();
-    }
+    }    
     
     @Override
     protected void onPause() {
@@ -55,6 +68,9 @@ public abstract class SimpleGLEngineActivity extends Activity {
         super.onConfigurationChanged(newConfig);
     }
     
+	// ===========================================================
+	// Methods
+	// ===========================================================
     public abstract void onLoadRessources();
     public abstract Scene onLoadScene();    
     public abstract void onLoadComplete();

@@ -1,9 +1,8 @@
-package com.simpleglengine;
+package com.simpleglengine.tools;
 
-import android.content.Context;
-import android.opengl.GLSurfaceView;
+import android.util.Log;
 
-public class OpenGLES10SurfaceView extends GLSurfaceView {
+public class FPSLogger {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -11,25 +10,23 @@ public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private OpenGLES10Renderer mRenderer;
+	private int mFramesNumber;
+	private double mLastUpdate;
+	private int mFps;
 	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public OpenGLES10SurfaceView(SimpleGLEngineActivity context){
-        super(context);
-        
-        mRenderer = new OpenGLES10Renderer(context);
-        setRenderer(mRenderer);
-    }
+	public FPSLogger() {
+		this.mFramesNumber = 0;
+		this.mLastUpdate = -1;
+		this.mFps = 60;
+	}
 	
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public OpenGLES10Renderer getRenderer() {
-		return mRenderer;
-	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -37,4 +34,17 @@ public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	public void log() {
+		if(mLastUpdate == -1)
+			mLastUpdate = System.currentTimeMillis();
+		
+		mFramesNumber++;
+		if(mLastUpdate + 1000 <= System.currentTimeMillis()) {
+			Log.e(FPSLogger.class.toString(), "FPS: "+mFramesNumber);
+			
+			mFps = mFramesNumber;
+			mFramesNumber = 0;
+			mLastUpdate = System.currentTimeMillis();
+		}
+	}
 }

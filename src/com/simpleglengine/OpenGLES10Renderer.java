@@ -15,6 +15,7 @@ import com.simpleglengine.entity.scene.Scene;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.managers.TextureManager;
 import com.simpleglengine.tools.BitmapTools;
+import com.simpleglengine.tools.FPSLogger;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,11 +30,21 @@ import android.os.SystemClock;
 import android.util.Log;
 
 public class OpenGLES10Renderer implements Renderer {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
 	private SimpleGLEngineActivity context;
 
 	public static float ratio = 1.77916667f;
 	public static int width = 854;
 	public static int height = 480;
+	
+	// GL context
+	private GL10 mGL;
 	
 	//Managers
 	private TextureManager mTextureManager;
@@ -43,20 +54,20 @@ public class OpenGLES10Renderer implements Renderer {
 	
 	//Alpha calculation
 	private double mLastUpdate = 0;
-	private float fps = 60;
-	
-	
-	
-	//private Texture mTexture;
-	//private Sprite mSprite;	
-	
-	
+	private FPSLogger mFpsLogger;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================	
 	public OpenGLES10Renderer(SimpleGLEngineActivity context) {
 		this.context = context;
 		
 		this.mScene = null;
 	}	
 
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
 	public Scene getScene() {
 		return mScene;
 	}
@@ -67,23 +78,10 @@ public class OpenGLES10Renderer implements Renderer {
 		return mTextureManager;
 	}
 
-	public void init(GL10 gl) {
-		this.mTextureManager = new TextureManager(context, gl);
-		
-		
-		context.onLoadRessources();
-        setScene(context.onLoadScene());        
-        context.onLoadComplete();
-		/*
-		Bitmap bmp = BitmapTools.loadBitmapFromRessource(R.drawable.heros, Color.rgb(255, 0, 255));		
-		this.mTexture = this.mTextureManager.loadTextureFromBitmap(bmp);
-		this.mSprite = new Sprite(this.mTexture, 0, 0);
-		mSprite.setScale(2f);		
-		mSprite.setRotationCenter(32, 32);
-		mSprite.translate(10, 10);*/
-		
-		mLastUpdate = System.currentTimeMillis();
-	}
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -104,6 +102,7 @@ public class OpenGLES10Renderer implements Renderer {
 		// Clear screen
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
+		
 
 		// Draw phase
 		mScene.onDraw(gl);
@@ -111,13 +110,8 @@ public class OpenGLES10Renderer implements Renderer {
 		// Update phase
 		mScene.onUpdate((float) (alpha/1000.0f));
 		
-		/*
-		this.mSprite.onDraw(gl);
-		this.mSprite.onUpdate(alpha/1000.0f);*/
-		
-		if(fps > 120) fps = 60;
-		fps = (float) ((fps + 1000.0f/alpha)/2.0f);
-		Log.e("","fps: "+fps);
+		// Log fps
+		mFpsLogger.log();
 		
 		mLastUpdate = System.currentTimeMillis();
 	}
@@ -125,7 +119,6 @@ public class OpenGLES10Renderer implements Renderer {
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		// Set the new viewport, thanks to resolution
 		gl.glViewport(0, 0, width, height);
-
 		this.width = width;
 		this.height = height;
 		ratio = (float) width / height;
@@ -140,8 +133,25 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		
+		// Init engine
 		init(gl);
 		
+	}
+	
+	// ===========================================================
+	// Methods
+	// ===========================================================
+	public void init(GL10 gl) {
+		this.mTextureManager = new TextureManager(context, gl);
+		
+		this.mGL = gl;
+		
+		context.onLoadRessources();
+        setScene(context.onLoadScene());        
+        context.onLoadComplete();
+		
+		mLastUpdate = System.currentTimeMillis();
+		mFpsLogger = new FPSLogger();
 	}
 
 	

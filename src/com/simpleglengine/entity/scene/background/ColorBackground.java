@@ -1,9 +1,10 @@
-package com.simpleglengine;
+package com.simpleglengine.entity.scene.background;
 
-import android.content.Context;
-import android.opengl.GLSurfaceView;
+import javax.microedition.khronos.opengles.GL10;
 
-public class OpenGLES10SurfaceView extends GLSurfaceView {
+import com.simpleglengine.entity.Entity;
+
+public class ColorBackground implements Entity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -11,30 +12,62 @@ public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private OpenGLES10Renderer mRenderer;
+	private float mR, mG, mB, mA;
+	private boolean mExecuted;
 	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public OpenGLES10SurfaceView(SimpleGLEngineActivity context){
-        super(context);
-        
-        mRenderer = new OpenGLES10Renderer(context);
-        setRenderer(mRenderer);
-    }
+	public ColorBackground(float r, float g, float b, float a) {
+		this.mR = r;
+		this.mG = g;
+		this.mB = b;
+		this.mA = a;
+		
+		this.mExecuted = false;
+	}
 	
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public OpenGLES10Renderer getRenderer() {
-		return mRenderer;
+	public void setColor(float r, float g, float b, float a) {
+		this.mR = r;
+		this.mG = g;
+		this.mB = b;
+		this.mA = a;
+		
+		this.mExecuted = false;
 	}
 	
+	@Override
+	public void setScale(float scale) {
+		
+	}
+
+	@Override
+	public float getScale() {
+		return 1;
+	}
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	@Override
+	public void onDraw(GL10 gl) {
+		if(!this.mExecuted) {
+			gl.glClearColor(mR, mG, mB, mA);
+			this.mExecuted = true;
+		}
+	}
 
+	@Override
+	public void onUpdate(float alpha) {
+		// TODO Auto-generated method stub
+
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
 }

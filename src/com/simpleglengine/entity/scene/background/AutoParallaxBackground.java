@@ -1,9 +1,10 @@
-package com.simpleglengine;
+package com.simpleglengine.entity.scene.background;
 
-import android.content.Context;
-import android.opengl.GLSurfaceView;
+import javax.microedition.khronos.opengles.GL10;
 
-public class OpenGLES10SurfaceView extends GLSurfaceView {
+import com.simpleglengine.entity.Entity;
+
+public class AutoParallaxBackground  implements Entity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -11,30 +12,44 @@ public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private OpenGLES10Renderer mRenderer;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public OpenGLES10SurfaceView(SimpleGLEngineActivity context){
-        super(context);
-        
-        mRenderer = new OpenGLES10Renderer(context);
-        setRenderer(mRenderer);
-    }
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public OpenGLES10Renderer getRenderer() {
-		return mRenderer;
+	@Override
+	public void setScale(float scale) {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
+	@Override
+	public float getScale() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	@Override
+	public void onDraw(GL10 gl) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	
+	@Override
+	public void onUpdate(float alpha) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
 }
