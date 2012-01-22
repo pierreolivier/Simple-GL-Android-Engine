@@ -68,7 +68,6 @@ public class Scene implements Entity {
 	public void onDraw(GL10 gl) {
 		if(this.mBackground != null)
 			this.mBackground.onDraw(gl);
-		
 		synchronized (mChildren) {
 			for(Entity pEntity : this.mChildren) {
 				pEntity.onDraw(gl);

@@ -19,54 +19,35 @@ public class TextureBackground extends ColorBackground implements Entity {
 	private boolean mRepeatX, mRepeatY;
 	private float mXMin, mXMax, mYMin, mYMax;
 	private SpriteBatch mSpriteBatch;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	public TextureBackground(Texture texture, float mXMin, float mXMax, float mYMin, float mYMax, boolean mRepeatX, boolean mRepeatY) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
-		
+
 		int width = (int) ((mXMax-mXMin)/texture.getWidth());//(int) (mXMax/mXMin);
 		int height = (int) ((mYMax-mYMin)/texture.getHeight());
-		float [] x  = {mXMin, mXMax}, y = {mYMin, mYMax};
-		
-		Log.e("s", ""+width+" "+height);
-		
-		for(int i = 0; i < width;i++) {
-			for(int j = 0; j < height;j++) {
-				x[i] = mXMin + texture.getWidth()*(i%width);
-				y[i] = mYMin + texture.getWidth()*(i/width);
-			}
+		//float [] x  = {mXMin, mXMax, 16, 32, 64,128,150,200,256,300,320,380,420}, y = {mYMin, mYMax, 16, 32, 64,128,150,200,256,300,320,380,420};
+		float [] x = new float[width*height], y = new float[width*height];
+
+		int k = 0;
+		for(int i = 0; i < width*height;i++) {
+			x[k] = mXMin + texture.getWidth()*(i%width);
+			y[k] = mYMin + texture.getWidth()*(i/width);
+			k++;
 		}
-		/*
-		
-		if(width > height) {
-			x = new float[width];
-			y = new float[width];			
-			for(int i = 0; i < width;i++) {
-				x[i] = mXMin + texture.getWidth()*(i%width);
-				y[i] = mYMin + texture.getWidth()*(i/width);
-			}
-		} else {
-			x = new float[height];
-			y = new float[height];			
-			for(int i = 0; i < height;i++) {
-				x[i] = mXMin + texture.getHeight()*(i%height);
-				y[i] = mYMin + texture.getHeight()*(i/height);
-			}
-		}
-		*/
-		
+
 		this.mSpriteBatch = new SpriteBatch(texture, x, y);
 	}
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	@Override
 	public void setScale(float scale) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -81,14 +62,14 @@ public class TextureBackground extends ColorBackground implements Entity {
 	@Override
 	public void onDraw(GL10 gl) {
 		super.onDraw(gl);
-		
+
 		this.mSpriteBatch.onDraw(gl);
 	}
 
 	@Override
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
-		
+
 		this.mSpriteBatch.onUpdate(alpha);
 	}
 
