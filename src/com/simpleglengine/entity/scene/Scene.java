@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import com.simpleglengine.entity.Entity;
 
 public class Scene implements Entity {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
