@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 
 public abstract class Shape implements Entity {
@@ -20,10 +21,13 @@ public abstract class Shape implements Entity {
 	protected int mRotation;
 	protected int mXRotationCenter, mYRotationCenter;
 	
-	protected FloatBuffer mVertexBuffer;
+	//protected FloatBuffer mVertexBuffer;
+	//protected float [] mVertex = null, mNoScaledVertex = null;
 	protected Texture mTexture = null;
-	protected float [] mVertex = null, mNoScaledVertex = null;
+	protected GLBuffer mBuffer = null;
+	
 	protected float mScale;
+	protected boolean mPostRescale;
 
 	// ===========================================================
 	// Constructors
@@ -38,6 +42,7 @@ public abstract class Shape implements Entity {
 		this.mY = y;		
 		
 		this.mScale = 1;
+		this.mPostRescale = false;
 	}
 	
 	// ===========================================================
@@ -83,7 +88,7 @@ public abstract class Shape implements Entity {
 		this.mY += dY;
 	}
 
-
+	/*
 	protected void loadVertexBuffer(float [] vertex) {
 		this.mVertex = vertex;
 		this.mNoScaledVertex = this.mVertex.clone();
@@ -93,6 +98,6 @@ public abstract class Shape implements Entity {
 		this.mVertexBuffer = byteBuffer.asFloatBuffer();
 		this.mVertexBuffer.put(vertex);
 		this.mVertexBuffer.position(0);
-	}
+	}*/
 	
 }

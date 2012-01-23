@@ -34,7 +34,7 @@ public class TextureManager {
 		super();
 
 		this.mTextureNumber = 0;
-		mTextures = new int[0];
+		this.mTextures = new int[0];
 		
 		this.gl = gl;
 		

@@ -65,6 +65,17 @@ public class Scene implements Entity {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
+	public void onLoadSurface(GL10 gl) {
+		if(this.mBackground != null)
+			this.mBackground.onLoadSurface(gl);
+		synchronized (mChildren) {
+			for(Entity pEntity : this.mChildren) {
+				pEntity.onLoadSurface(gl);
+			}
+		}
+	}
+	
+	@Override
 	public void onDraw(GL10 gl) {
 		if(this.mBackground != null)
 			this.mBackground.onDraw(gl);
@@ -100,6 +111,8 @@ public class Scene implements Entity {
 			this.mChildren.remove(pEntity);
 		}
 	}
+
+	
 
 	
 

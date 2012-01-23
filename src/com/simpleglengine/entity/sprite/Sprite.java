@@ -4,10 +4,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.util.Log;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
+import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.Entity;
 import com.simpleglengine.entity.Shape;
@@ -38,7 +40,10 @@ public class Sprite extends Shape {
 				ScreenTools.x(0f), 		ScreenTools.y(0f), 		0,			
 				ScreenTools.x(0f), 		ScreenTools.y(height), 	0				
 		};
-		loadVertexBuffer(sprite);
+		
+		this.mBuffer = new GLBuffer(sprite);
+		
+		//loadVertexBuffer(sprite);
 
 
 	}
@@ -63,12 +68,15 @@ public class Sprite extends Shape {
 				ScreenTools.x(0f), 				ScreenTools.y(0f), 				0,			
 				ScreenTools.x(0f), 				ScreenTools.y(height*scale), 	0				
 		};
-
+		
+		this.mPostRescale = true;
+		/*
+		mBuffer.loadBuffer((GL11) gl);
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(sprite.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mVertexBuffer = byteBuffer.asFloatBuffer();
 		this.mVertexBuffer.put(sprite);
-		this.mVertexBuffer.position(0);
+		this.mVertexBuffer.position(0);*/
 	}
 	@Override
 	public float getScale() {
@@ -79,12 +87,21 @@ public class Sprite extends Shape {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
+	public void onLoadSurface(GL10 gl) {
+		mBuffer.loadBuffer((GL11) gl);
+	}
+	
+	@Override
 	public void onDraw(GL10 gl) {
 
 		//float xCenter = ScreenTools.getWidth()/2, yCenter = ScreenTools.getHeight()/2;
 		float xCenter = 0, yCenter = 0;
 
 		gl.glLoadIdentity();
+		
+		if(mPostRescale) {
+			
+		}
 		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
 

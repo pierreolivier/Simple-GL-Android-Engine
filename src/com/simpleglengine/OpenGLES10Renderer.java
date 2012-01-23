@@ -13,6 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.scene.Scene;
 import com.simpleglengine.entity.sprite.Sprite;
+import com.simpleglengine.managers.BufferManager;
 import com.simpleglengine.managers.TextureManager;
 import com.simpleglengine.tools.BitmapTools;
 import com.simpleglengine.tools.FPSLogger;
@@ -93,7 +94,6 @@ public class OpenGLES10Renderer implements Renderer {
 
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-
 	}	
 	@Override
 	public void onDrawFrame(GL10 gl) {		

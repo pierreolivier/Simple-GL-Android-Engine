@@ -36,6 +36,12 @@ public class AutoParallaxBackground  implements Entity {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
+	public void onLoadSurface(GL10 gl) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void onDraw(GL10 gl) {
 		// TODO Auto-generated method stub
 		
