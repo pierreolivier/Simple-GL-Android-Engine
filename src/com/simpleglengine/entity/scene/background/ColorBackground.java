@@ -53,6 +53,12 @@ public class ColorBackground implements Entity {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
+	public void onLoadSurface(GL10 gl) {
+		gl.glClearColor(mR, mG, mB, mA);
+		this.mExecuted = true;
+	}
+	
+	@Override
 	public void onDraw(GL10 gl) {
 		if(!this.mExecuted) {
 			gl.glClearColor(mR, mG, mB, mA);

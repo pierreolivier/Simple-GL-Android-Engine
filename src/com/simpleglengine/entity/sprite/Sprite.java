@@ -4,11 +4,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11Ext;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.util.Log;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
+import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.Entity;
 import com.simpleglengine.entity.Shape;
@@ -39,6 +40,9 @@ public class Sprite extends Shape {
 				ScreenTools.x(0f), 		ScreenTools.y(0f), 		0,			
 				ScreenTools.x(0f), 		ScreenTools.y(height), 	0				
 		};
+		
+		this.mBuffer = new GLBuffer(sprite);
+		
 		loadVertexBuffer(sprite);
 
 
@@ -64,7 +68,10 @@ public class Sprite extends Shape {
 				ScreenTools.x(0f), 				ScreenTools.y(0f), 				0,			
 				ScreenTools.x(0f), 				ScreenTools.y(height*scale), 	0				
 		};
-
+		
+		this.mPostRescale = true;
+		
+		//mBuffer.loadBuffer((GL11) gl);
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(sprite.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mVertexBuffer = byteBuffer.asFloatBuffer();
@@ -80,6 +87,11 @@ public class Sprite extends Shape {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
+	public void onLoadSurface(GL10 gl) {
+		mBuffer.loadBuffer((GL11) gl);
+	}
+	
+	@Override
 	public void onDraw(GL10 gl) {
 		
 		
@@ -87,9 +99,18 @@ public class Sprite extends Shape {
 		float xCenter = 0, yCenter = 0;
 
 		gl.glLoadIdentity();
+		/*
+<<<<<<< HEAD
 		
+=======
+		if(mPostRescale) {
+			
+		}
 		
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
 
+>>>>>>> a6a51402ff1cbba58d95b432d96c632b26363b58*/
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
 		
 		gl.glTranslatef(ScreenTools.dX(-xCenter+super.mXRotationCenter+mX), ScreenTools.dY(-yCenter+super.mYRotationCenter+mY), 0); //Offset
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
