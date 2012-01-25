@@ -2,6 +2,7 @@ package com.simpleglengine.entity.sprite;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+import javax.microedition.khronos.opengles.GL11Ext;
 
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.tools.ScreenTools;
@@ -57,7 +58,7 @@ public class SpriteBatch extends Sprite {
 		
 		for(int i = 0; i < mXs.length;i++) {
 			float x = mXs[i], y = mYs[i];
-			
+
 			gl.glTranslatef(ScreenTools.dX(x-lastX), ScreenTools.dY(y-lastY), 0); //Offset
 			
 			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);	
