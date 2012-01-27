@@ -148,13 +148,17 @@ public class OpenGLES10Renderer implements Renderer {
 	// Methods
 	// ===========================================================
 	public void init(GL10 gl) {
+		Scene scene;
 		this.mTextureManager = new TextureManager(context, gl);
 		
 		this.mGL = gl;
 		
 		context.onLoadRessources();
-        setScene(context.onLoadScene());        
+        setScene(scene = context.onLoadScene());        
         context.onLoadComplete();
+        
+        scene.onLoadSurface(gl);
+        
 		
 		mLastUpdate = System.currentTimeMillis();
 		mFpsLogger = new FPSLogger();

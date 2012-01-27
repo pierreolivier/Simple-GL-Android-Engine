@@ -1,6 +1,6 @@
 package com.simpleglengine.tools;
 
-import com.simpleglengine.R;
+
 
 import android.content.Context;
 import android.graphics.Bitmap;

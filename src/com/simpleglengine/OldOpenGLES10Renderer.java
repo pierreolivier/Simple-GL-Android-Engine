@@ -95,8 +95,8 @@ public class OldOpenGLES10Renderer implements Renderer {
 		squareVB.put(square);
 		squareVB.position(0);
 
-		Bitmap bitmap = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
-		Bitmap bitmap2 = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
+		//Bitmap bitmap = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
+		//Bitmap bitmap2 = BitmapTools.createTransparentBitmapFromBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher), Color.rgb(255, 0, 255));
 		float textureCoordinates[] = {
 				0.0f, 0.0f,
 				0.0f, 1.0f,
@@ -117,11 +117,11 @@ public class OldOpenGLES10Renderer implements Renderer {
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[1]);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap2, 0);
+		//GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap2, 0);
 		
 		
 		bitmap.recycle();
-		bitmap2.recycle();
+		//bitmap2.recycle();
 	}
 
 	@Override

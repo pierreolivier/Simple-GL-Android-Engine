@@ -25,6 +25,7 @@ public class GLBuffer {
 	public GLBuffer(float [] vertex) {
 		super();
 		
+		this.mBufferId = -1;
 		this.mVertex = vertex;
 	}
 
@@ -40,6 +41,9 @@ public class GLBuffer {
 	public float [] getVertex() {
 		return mVertex;
 	}
+	public void setVertex(float [] vertex) {
+		this.mVertex = vertex;
+	}
 	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -48,13 +52,15 @@ public class GLBuffer {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	public void loadBuffer(GL11 gl) {
-		
-		
+	public void loadBuffer(GL11 gl) {		
 		int [] buffers = new int[1];
 		
+		if(mBufferId != -1) {
+			//gl.glDeleteBuffers(n, buffers, offset)
+		}
+		
 		gl.glGenBuffers(1, buffers, 0);
-		gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, buffers[0]);
+		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, buffers[0]);
 		
 		this.mBufferId = buffers[0];
 		
@@ -64,7 +70,9 @@ public class GLBuffer {
 		this.mBuffer.put(mVertex);
 		this.mBuffer.position(0);
 		
-		gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER, mVertex.length, mBuffer, GL11.GL_DYNAMIC_DRAW);
+		gl.glBufferData(GL11.GL_ARRAY_BUFFER, mVertex.length * 4, mBuffer, GL11.GL_DYNAMIC_DRAW);
+		
+		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 	}
 	
 	
