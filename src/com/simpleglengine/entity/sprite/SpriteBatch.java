@@ -40,19 +40,23 @@ public class SpriteBatch extends Sprite {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	public void onDraw(GL10 gl) {
-
+	public void onDraw(GL10 gl10) {
+		GL11 gl = (GL11) gl10;
 		gl.glLoadIdentity();
 
 		//if(mPostBind) {
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
+		gl.glBindTexture(GL11.GL_TEXTURE_2D, mTexture.getTextureId());
+		gl.glTexCoordPointer(2, GL11.GL_FLOAT, 0, this.mTexture.getTextureBuffer());
+		
+		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
+		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
+		//gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
 		this.mPostBind = false;
 		//}
 
 		
-
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
-		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTexture.getTextureBuffer());
+		
+		
 		
 		float lastX = -1, lastY = -1;
 		
@@ -61,7 +65,7 @@ public class SpriteBatch extends Sprite {
 
 			gl.glTranslatef(ScreenTools.dX(x-lastX), ScreenTools.dY(y-lastY), 0); //Offset
 			
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);	
+			gl.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);	
 			
 			lastX = x;
 			lastY = y;
@@ -70,7 +74,8 @@ public class SpriteBatch extends Sprite {
 
 
 		//if(mPostUnbind) {
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 		this.mPostUnbind = false;
 		//}
 

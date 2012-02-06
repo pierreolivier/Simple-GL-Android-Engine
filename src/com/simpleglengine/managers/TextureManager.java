@@ -55,6 +55,7 @@ public class TextureManager {
 	public Texture loadTextureFromBitmap(Bitmap bitmap) {
 		int [] textures = mTextures.clone();
 
+		
 		mTextures = new int[mTextureNumber+1];
 		for(int i = 0; i<mTextureNumber;i++)
 			mTextures[i] = textures[i];

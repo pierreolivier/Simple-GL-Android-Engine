@@ -28,7 +28,6 @@ public class TextureBackground extends ColorBackground implements Entity {
 
 		int width = (int) ((mXMax-mXMin)/texture.getWidth());//(int) (mXMax/mXMin);
 		int height = (int) ((mYMax-mYMin)/texture.getHeight());
-		//float [] x  = {mXMin, mXMax, 16, 32, 64,128,150,200,256,300,320,380,420}, y = {mYMin, mYMax, 16, 32, 64,128,150,200,256,300,320,380,420};
 		float [] x = new float[width*height], y = new float[width*height];
 
 		int k = 0;
@@ -71,6 +70,12 @@ public class TextureBackground extends ColorBackground implements Entity {
 		super.onUpdate(alpha);
 
 		this.mSpriteBatch.onUpdate(alpha);
+	}
+	
+	public void onLoadSurface(GL10 gl) {
+		super.onLoadSurface(gl);
+		
+		this.mSpriteBatch.onLoadSurface(gl);
 	}
 
 	// ===========================================================

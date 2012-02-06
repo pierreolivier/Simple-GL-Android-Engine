@@ -92,6 +92,8 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
+		
+		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}	
@@ -139,6 +141,7 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		
+		gl.glHint(GL10.GL_TEXTURE_2D, GL10.GL_FASTEST);
 		// Init engine
 		init(gl);
 		
