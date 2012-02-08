@@ -8,6 +8,8 @@ import javax.microedition.khronos.opengles.GL11;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.opengl.GLUtils;
 
 import com.simpleglengine.OpenGLES10Renderer;
@@ -53,7 +55,11 @@ public class TextureManager {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	public Texture loadTextureFromBitmap(Bitmap bitmap) {
+	public Texture loadTextureFromBitmap(Bitmap bitmap) {		
+		Matrix aMatrix = new Matrix();
+		aMatrix.preScale(-1.0f, 1.0f);
+		bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), aMatrix, false);
+		
 		int [] textures = mTextures.clone();
 
 		

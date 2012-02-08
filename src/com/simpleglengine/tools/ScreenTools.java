@@ -10,12 +10,13 @@ public class ScreenTools {
 		return OpenGLES10Renderer.height;
 	}
 	public static float x(float x) {
-		float a = 2.0f * OpenGLES10Renderer.ratio / OpenGLES10Renderer.width;
+		
+		//float a = 2.0f * OpenGLES10Renderer.ratio / OpenGLES10Renderer.width;
 		return x;
 		//return a * x - OpenGLES10Renderer.ratio;
 	}
 	public static float y(float y) {
-		float a =  2.0f / OpenGLES10Renderer.height;
+		//float a =  2.0f / OpenGLES10Renderer.height;
 		return y;
 		//return a * y - 1.0f;
 	}

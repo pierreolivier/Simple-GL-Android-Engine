@@ -29,12 +29,15 @@ public class Texture {
 		this.mHeight = height;
 		
 		// Set coordinates on shape
+		
 		float textureCoordinates[] = {
 				0.0f, 0.0f,
 				0.0f, 1.0f,
 				1.0f, 0.0f,
 				1.0f, 1.0f 
 		};
+		
+	
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(textureCoordinates.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mTextureBuffer = byteBuffer.asFloatBuffer();

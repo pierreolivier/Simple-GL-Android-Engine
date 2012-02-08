@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.sprite.SpriteBatch;
 
 public class TextureBackground extends ColorBackground implements Entity {
@@ -16,14 +17,21 @@ public class TextureBackground extends ColorBackground implements Entity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private boolean mRepeatX, mRepeatY;
-	private float mXMin, mXMax, mYMin, mYMax;
-	private SpriteBatch mSpriteBatch;
+	//private boolean mRepeatX, mRepeatY;
+	//private float mXMin, mXMax, mYMin, mYMax;
+	private SpriteBatch mSpriteBatch = null;
+	
+	private Sprite mSprite = null;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public TextureBackground(Texture texture, float mXMin, float mXMax, float mYMin, float mYMax, boolean mRepeatX, boolean mRepeatY) {
+	public TextureBackground(Texture texture, int x, int y) {
+		super(0.0f, 0.0f, 0.0f, 1.0f);
+		
+		this.mSprite = new Sprite(texture, x, y);
+	}
+	public TextureBackground(Texture texture, float mXMin, float mXMax, float mYMin, float mYMax) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
 
 		int width = (int) ((mXMax-mXMin)/texture.getWidth());//(int) (mXMax/mXMin);
@@ -62,20 +70,35 @@ public class TextureBackground extends ColorBackground implements Entity {
 	public void onDraw(GL10 gl) {
 		super.onDraw(gl);
 
-		this.mSpriteBatch.onDraw(gl);
+		gl.glDisable(GL10.GL_BLEND);
+		
+		if(mSpriteBatch != null)
+			this.mSpriteBatch.onDraw(gl);
+		else if (mSprite != null)
+			this.mSprite.onDraw(gl);
+			
+		
+		gl.glEnable(GL10.GL_BLEND);
 	}
 
 	@Override
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
 
-		this.mSpriteBatch.onUpdate(alpha);
+		if(mSpriteBatch != null)
+			this.mSpriteBatch.onUpdate(alpha);
+		else if (mSprite != null)
+			this.mSprite.onUpdate(alpha);
+		
 	}
 	
 	public void onLoadSurface(GL10 gl) {
 		super.onLoadSurface(gl);
 		
-		this.mSpriteBatch.onLoadSurface(gl);
+		if(mSpriteBatch != null)
+			this.mSpriteBatch.onLoadSurface(gl);
+		else if (mSprite != null)
+			this.mSprite.onLoadSurface(gl);
 	}
 
 	// ===========================================================

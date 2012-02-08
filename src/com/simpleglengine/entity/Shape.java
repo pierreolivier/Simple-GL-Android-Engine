@@ -52,8 +52,14 @@ public abstract class Shape implements Entity {
 	public float getX() {
 		return mX;
 	}
+	public void setX(float x) {
+		this.mX = x;
+	}
 	public float getY() {
 		return mY;
+	}
+	public void setY(float y) {
+		this.mY = y;
 	}
 	public int getRotation() {
 		return mRotation;

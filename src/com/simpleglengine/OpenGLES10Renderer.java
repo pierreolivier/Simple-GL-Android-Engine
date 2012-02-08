@@ -92,6 +92,7 @@ public class OpenGLES10Renderer implements Renderer {
 		
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glDisable(GL10.GL_DEPTH_TEST);
 
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -129,7 +130,9 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		
-		GLU.gluOrtho2D(gl, width , 0, height, 0);
+		//GLU.gluOrtho2D(gl, width , 0, height, 0);
+		
+		GLU.gluOrtho2D(gl, 0 , width, height, 0);
 		
 		// Go to Model View Mode
 		gl.glMatrixMode(GL10.GL_MODELVIEW);

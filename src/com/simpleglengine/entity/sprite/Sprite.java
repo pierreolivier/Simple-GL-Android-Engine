@@ -87,6 +87,20 @@ public class Sprite extends Shape {
 	public float getScale() {
 		return super.mScale;
 	}
+	
+	public float getWidth() {
+		return mTexture.getWidth();
+	}
+	public float getScaledWidth() {
+		return getWidth()*mScale;
+	}
+	
+	public float getHeight() {
+		return mTexture.getHeight();
+	}
+	public float getScaledHeight() {
+		return getHeight()*mScale;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
