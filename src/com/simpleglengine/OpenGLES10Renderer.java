@@ -89,10 +89,10 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		gl.glEnable(GL10.GL_TEXTURE_2D);
+		
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-		
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
@@ -129,13 +129,7 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
 		
-		//gl.glOrthof(ratio, -ratio, 1, -1, 3, 7);
-		//GLU.gluOrtho2D(gl, ratio, -ratio, 1, -1);
 		GLU.gluOrtho2D(gl, width , 0, height, 0);
-		/*
-		gl.glFrustumf(ratio, -ratio, 1, -1, 3, 7);
-		GLU.gluLookAt(gl, 0, 0, -3f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-		*/
 		
 		// Go to Model View Mode
 		gl.glMatrixMode(GL10.GL_MODELVIEW);

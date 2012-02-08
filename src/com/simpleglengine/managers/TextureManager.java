@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -63,11 +64,13 @@ public class TextureManager {
 
 		
 
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextures[mTextureNumber]);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+		gl.glBindTexture(GL11.GL_TEXTURE_2D, mTextures[mTextureNumber]);
+		gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		gl.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 		
+		GLUtils.texImage2D(GL11.GL_TEXTURE_2D, 0, bitmap, 0);
+		
+
 		this.mTextureNumber++;
 		
 		return new Texture(mTextures[mTextureNumber-1], bitmap.getWidth(), bitmap.getHeight());

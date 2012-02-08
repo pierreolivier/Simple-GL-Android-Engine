@@ -5,6 +5,7 @@ import java.nio.ByteOrder;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
+import javax.microedition.khronos.opengles.GL11Ext;
 
 import android.util.Log;
 
