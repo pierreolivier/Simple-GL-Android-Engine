@@ -36,10 +36,10 @@ public class Sprite extends Shape {
 
 		float width = mTexture.getWidth(), height = mTexture.getHeight();
 		float sprite[] = {
-				ScreenTools.x(width), 	ScreenTools.y(0f), 		0,
-				ScreenTools.x(width), 	ScreenTools.y(height), 	0,				
-				ScreenTools.x(0f), 		ScreenTools.y(0f), 		0,			
-				ScreenTools.x(0f), 		ScreenTools.y(height), 	0				
+				width, 	0f, 		0,
+				width, 	height, 	0,				
+				0f, 	0f, 		0,			
+				0f, 	height, 	0				
 		};
 
 		this.mBuffer = new GLBuffer(sprite);
@@ -64,10 +64,10 @@ public class Sprite extends Shape {
 		super.mScale = scale;
 
 		float sprite[] = {
-				ScreenTools.x(width*scale), 	ScreenTools.y(0f), 				0,
-				ScreenTools.x(width*scale), 	ScreenTools.y(height*scale), 	0,				
-				ScreenTools.x(0f), 				ScreenTools.y(0f), 				0,			
-				ScreenTools.x(0f), 				ScreenTools.y(height*scale), 	0				
+				width*scale, 	0f, 				0,
+				width*scale, 	height*scale, 	0,				
+				0f, 			0f, 				0,			
+				0f, 			height*scale, 	0				
 		};
 
 		
@@ -123,9 +123,10 @@ public class Sprite extends Shape {
 			mPostRescale = false;
 		}
 		
-		gl.glTranslatef(ScreenTools.dX(-xCenter+super.mXRotationCenter+mX), ScreenTools.dY(-yCenter+super.mYRotationCenter+mY), 0); //Offset
+		gl.glTranslatef(super.mXRotationCenter+mX, super.mYRotationCenter+mY, 0); //Offset
+		//gl.glTranslatef(super.mXRotationCenter, super.mYRotationCenter, 0); //Offset
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
-		gl.glTranslatef(ScreenTools.dX(xCenter-super.mXRotationCenter), ScreenTools.dY(yCenter-super.mXRotationCenter), 0); //Milieu + centre de rotation
+		gl.glTranslatef(-super.mXRotationCenter, -super.mXRotationCenter, 0); //Milieu + centre de rotation
 
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTexture.getTextureBuffer());

@@ -31,6 +31,8 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 	private List <Sprite> mSprites = null, mSpritesNexts = null;
 	private Sprite mLastSprite = null, mLastSpriteNext = null;
 	
+	private TextureBackground mTextureBackground = null;
+	
 	private float mScale = 1.0f;
 
 	// ===========================================================
@@ -44,47 +46,7 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		this.mVelocityX = velocityX;
 		
 		load(texture, y, velocityX);
-		/*
-		if(texture.getWidth() <= ScreenTools.getWidth()) {
-			int xNext = ScreenTools.getWidth();
 
-			mSprites = new ArrayList<Sprite>();
-			mSpritesNexts = new ArrayList<Sprite>();
-
-			for(int i = 0; i <= ScreenTools.getWidth();i+=texture.getWidth()) {
-				Sprite spriteTemp = new Sprite(texture, i, y);
-				PhysicsHandler physicsHandler = new PhysicsHandler(spriteTemp);
-				physicsHandler.setVelocityX(velocityX);
-				spriteTemp.setPhysicsHandler(physicsHandler);				
-
-				mSprites.add(spriteTemp);
-
-				xNext = (int) (spriteTemp.getX()+texture.getWidth());
-				mLastSprite = spriteTemp;
-			}
-
-			for(int i = xNext; i <= 2*ScreenTools.getWidth();i+=texture.getWidth()) {
-				Sprite spriteTemp = new Sprite(texture, i, y);
-				PhysicsHandler physicsHandler = new PhysicsHandler(spriteTemp);
-				physicsHandler.setVelocityX(velocityX);
-				spriteTemp.setPhysicsHandler(physicsHandler);				
-
-				mSpritesNexts.add(spriteTemp);
-				
-				mLastSpriteNext = spriteTemp;
-			}
-		} else {
-			mSprite = new Sprite(texture, 0, y);
-			PhysicsHandler physicsHandler = new PhysicsHandler(mSprite);
-			physicsHandler.setVelocityX(velocityX);
-			mSprite.setPhysicsHandler(physicsHandler);
-
-			mSpriteNext = new Sprite(texture, 0 + texture.getWidth(), y);
-			PhysicsHandler physicsHandlerNext = new PhysicsHandler(mSpriteNext);
-			physicsHandlerNext.setVelocityX(velocityX);
-			mSpriteNext.setPhysicsHandler(physicsHandlerNext);
-		}
-		*/
 	}
 	// ===========================================================
 	// Getter & Setter
@@ -115,6 +77,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		// TODO Auto-generated method stub
 		return mScale;
 	}
+	
+	public void setTextureBackground(TextureBackground textureBackground) {
+		this.mTextureBackground = textureBackground;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -122,6 +88,9 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 	@Override
 	public void onLoadSurface(GL10 gl) {
 		super.onLoadSurface(gl);
+		
+		if(mTextureBackground != null)
+			mTextureBackground.onLoadSurface(gl);
 		
 		if(mSprites != null && mSpritesNexts != null) {
 			for(Entity pEntity : this.mSprites) {
@@ -140,7 +109,8 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 	public void onDraw(GL10 gl) {
 		super.onDraw(gl);
 		
-		//gl.glDisable(GL10.GL_BLEND);
+		if(mTextureBackground != null)
+			mTextureBackground.onDraw(gl);
 		
 		if(mSprites != null && mSpritesNexts != null) {
 			for(Entity pEntity : this.mSprites) {
@@ -153,14 +123,15 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 			mSprite.onDraw(gl);
 			mSpriteNext.onDraw(gl);
 		}
-		
-		//gl.glEnable(GL10.GL_BLEND);
 	}
 
 
 	@Override
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
+		
+		if(mTextureBackground != null)
+			mTextureBackground.onUpdate(alpha);
 		
 		if(mSprites != null && mSpritesNexts != null) {
 			for(Entity pEntity : this.mSprites) {
