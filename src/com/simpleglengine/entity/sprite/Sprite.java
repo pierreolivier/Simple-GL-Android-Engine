@@ -113,7 +113,7 @@ public class Sprite extends Shape {
 	@Override
 	public void onDraw(GL10 gl10) {
 		GL11 gl = (GL11) gl10;
-
+		
 		float xCenter = 0, yCenter = 0;
 
 		gl.glLoadIdentity();
@@ -123,10 +123,16 @@ public class Sprite extends Shape {
 			mPostRescale = false;
 		}
 		
-		gl.glTranslatef(super.mXRotationCenter+mX, super.mYRotationCenter+mY, 0); //Offset
+		
+		gl.glTranslatef(super.mX, super.mY, 0);
+		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f);
+		gl.glTranslatef(-super.mXRotationCenter*mScale, -super.mYRotationCenter*mScale, 0);
+		
+		//gl.glTranslatef(super.mXRotationCenter, super.mXRotationCenter, 0);
+		//gl.glTranslatef(super.mXRotationCenter+mX, super.mYRotationCenter+mY, 0); //Offset
 		//gl.glTranslatef(super.mXRotationCenter, super.mYRotationCenter, 0); //Offset
-		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
-		gl.glTranslatef(-super.mXRotationCenter, -super.mXRotationCenter, 0); //Milieu + centre de rotation
+		//gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
+		//gl.glTranslatef(-super.mXRotationCenter, -super.mXRotationCenter, 0); //Milieu + centre de rotation
 
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
 		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTexture.getTextureBuffer());

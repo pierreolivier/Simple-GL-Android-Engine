@@ -14,6 +14,7 @@ import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.scene.Scene;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.managers.BufferManager;
+import com.simpleglengine.managers.FontManager;
 import com.simpleglengine.managers.TextureManager;
 import com.simpleglengine.tools.BitmapTools;
 import com.simpleglengine.tools.FPSLogger;
@@ -49,6 +50,7 @@ public class OpenGLES10Renderer implements Renderer {
 	
 	//Managers
 	private TextureManager mTextureManager;
+	private FontManager mFontManager;
 	
 	//Scene
 	private Scene mScene;
@@ -77,6 +79,9 @@ public class OpenGLES10Renderer implements Renderer {
 	}
 	public TextureManager getTextureManager() {
 		return mTextureManager;
+	}
+	public FontManager getFontManager() {
+		return mFontManager;
 	}
 
 	// ===========================================================
@@ -150,6 +155,7 @@ public class OpenGLES10Renderer implements Renderer {
 	public void init(GL10 gl) {
 		Scene scene;
 		this.mTextureManager = new TextureManager(context, gl);
+		this.mFontManager = new FontManager(context, gl);
 		
 		this.mGL = gl;
 		
