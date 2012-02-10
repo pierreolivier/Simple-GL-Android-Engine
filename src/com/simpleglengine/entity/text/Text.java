@@ -18,8 +18,6 @@ public class Text extends Shape implements Entity{
 	private Font mFont;
 	private String mText;
 	
-	protected PhysicsHandler mPhysicsHandler = null;
-	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -35,18 +33,19 @@ public class Text extends Shape implements Entity{
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public PhysicsHandler getPhysicsHandler() {
-		return mPhysicsHandler;
+	public String getText() {
+		return mText;
 	}
-	public void setPhysicsHandler(PhysicsHandler mPhysicsHandler) {
-		this.mPhysicsHandler = mPhysicsHandler;
+
+	public void setText(String mText) {
+		this.mText = mText;
 	}
+	
 	@Override
 	public void setScale(float scale) {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public float getScale() {
 		// TODO Auto-generated method stub
@@ -71,8 +70,7 @@ public class Text extends Shape implements Entity{
 
 	@Override
 	public void onUpdate(float alpha) {
-		if(this.mPhysicsHandler != null)
-			this.mPhysicsHandler.onUpdate(alpha);
+		super.onUpdate(alpha);
 	}
 
 	// ===========================================================

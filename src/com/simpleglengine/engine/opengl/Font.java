@@ -21,11 +21,11 @@ public class Font {
 	// Constructors
 	// ===========================================================
 	
-	public Font(GL10 gl, TextureFontTools textureFontTools) {
+	public Font(TextureFontTools textureFontTools) {
 		super();
 		
 		this.mTextureFontTools = textureFontTools;
-		
+		this.setColor(0.0f, 0.0f, 0.0f);
 		
 	}
 	

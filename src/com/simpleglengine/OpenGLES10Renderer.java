@@ -83,6 +83,9 @@ public class OpenGLES10Renderer implements Renderer {
 	public FontManager getFontManager() {
 		return mFontManager;
 	}
+	public int getFPS() {
+		return mFpsLogger.getFPS();
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -169,6 +172,8 @@ public class OpenGLES10Renderer implements Renderer {
 		mLastUpdate = System.currentTimeMillis();
 		mFpsLogger = new FPSLogger();
 	}
+
+
 
 	
 	

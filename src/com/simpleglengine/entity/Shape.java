@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 
@@ -29,6 +30,7 @@ public abstract class Shape implements Entity {
 	protected float mScale;
 	protected boolean mPostRescale;
 
+	protected PhysicsHandler mPhysicsHandler = null;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -48,6 +50,12 @@ public abstract class Shape implements Entity {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	public PhysicsHandler getPhysicsHandler() {
+		return mPhysicsHandler;
+	}
+	public void setPhysicsHandler(PhysicsHandler mPhysicsHandler) {
+		this.mPhysicsHandler = mPhysicsHandler;
+	}
 	
 	public float getX() {
 		return mX;
@@ -79,7 +87,10 @@ public abstract class Shape implements Entity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
+	public void onUpdate(float alpha) {
+		if(this.mPhysicsHandler != null)
+			this.mPhysicsHandler.onUpdate(alpha);
+	}
 	// ===========================================================
 	// Methods
 	// ===========================================================

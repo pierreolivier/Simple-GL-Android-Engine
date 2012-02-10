@@ -25,7 +25,7 @@ public class Sprite extends Shape {
 	// Fields
 	// ===========================================================
 	protected Texture mTexture;
-	protected PhysicsHandler mPhysicsHandler = null;
+	//protected PhysicsHandler mPhysicsHandler = null;
 
 	// ===========================================================
 	// Constructors
@@ -52,12 +52,7 @@ public class Sprite extends Shape {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public PhysicsHandler getPhysicsHandler() {
-		return mPhysicsHandler;
-	}
-	public void setPhysicsHandler(PhysicsHandler mPhysicsHandler) {
-		this.mPhysicsHandler = mPhysicsHandler;
-	}
+
 	public void setScale(float scale) {		
 		float width = mTexture.getWidth(), height = mTexture.getHeight();
 
@@ -152,9 +147,7 @@ public class Sprite extends Shape {
 
 	@Override
 	public void onUpdate(float alpha) {
-
-		if(this.mPhysicsHandler != null)
-			this.mPhysicsHandler.onUpdate(alpha);
+		super.onUpdate(alpha);
 
 	}
 

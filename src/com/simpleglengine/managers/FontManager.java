@@ -28,7 +28,7 @@ public class FontManager {
 		super();
 
 		this.mContext = context;
-		this.mGL = mGL;
+		this.mGL = gl;
 	}
 
 	// ===========================================================
@@ -46,6 +46,6 @@ public class FontManager {
 		TextureFontTools textureFontTools = new TextureFontTools(mContext, mGL);
 		textureFontTools.LoadFont(assetsBff, mGL);
 		
-		return new Font(mGL, textureFontTools);
+		return new Font(textureFontTools);
 	}
 }

@@ -1,6 +1,7 @@
 package com.simpleglengine;
 
 import com.simpleglengine.entity.scene.Scene;
+import com.simpleglengine.managers.FontManager;
 import com.simpleglengine.managers.TextureManager;
 
 import android.app.Activity;
@@ -29,6 +30,12 @@ public abstract class SimpleGLEngineActivity extends Activity {
 	public TextureManager getTextureManager() {
     	return mRenderer.getTextureManager();
     }
+	public FontManager getFontManager() {
+		return mRenderer.getFontManager();
+	}
+	public int getFPS() {
+		return mRenderer.getFPS();
+	}
 	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
