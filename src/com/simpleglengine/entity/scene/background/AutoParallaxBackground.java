@@ -10,6 +10,7 @@ import android.util.Log;
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.sprite.SpriteBatch;
 import com.simpleglengine.tools.ScreenTools;
@@ -26,12 +27,14 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 	private int mYAutoParallaxBackground;
 	private float mVelocityX;
 	
-	private Sprite mSprite = null, mSpriteNext;
+	private Sprite mSprite = null, mSpriteNext = null;
 	
 	private List <Sprite> mSprites = null, mSpritesNexts = null;
 	private Sprite mLastSprite = null, mLastSpriteNext = null;
 	
 	private TextureBackground mTextureBackground = null;
+	
+	private List <Follower> mFollowers = null;
 	
 	private float mScale = 1.0f;
 
@@ -46,7 +49,8 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		this.mVelocityX = velocityX;
 		
 		load(texture, y, velocityX);
-
+		
+		this.mFollowers = new ArrayList<Follower>();
 	}
 	// ===========================================================
 	// Getter & Setter
@@ -102,6 +106,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.onLoadSurface(gl);
 			mSpriteNext.onLoadSurface(gl);
+			
+			for(Follower follower : this.mFollowers) {
+				follower.getSprite().onLoadSurface(gl);
+			}
 		}
 	}
 
@@ -122,6 +130,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.onDraw(gl);
 			mSpriteNext.onDraw(gl);
+			
+			for(Follower follower : this.mFollowers) {
+				follower.getSprite().onDraw(gl);
+			}
 		}
 	}
 
@@ -157,6 +169,21 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.onUpdate(alpha);
 			mSpriteNext.onUpdate(alpha);
+			
+			for(Follower follower : this.mFollowers) {
+				Sprite sprite = follower.getSprite();
+				
+				if(sprite.getX()+sprite.getScaledWidth() < 0) {
+					if(mSprite.getX()+follower.getxOffset()+sprite.getScaledWidth() < 0) {
+						sprite.setPosition(mSpriteNext.getX()+follower.getxOffset(),mSpriteNext.getY()+follower.getyOffset());
+					} else {
+						sprite.setPosition(mSprite.getX()+follower.getxOffset(),mSprite.getY()+follower.getyOffset());
+					}
+				}
+					
+				
+				sprite.onUpdate(alpha);
+			}
 			
 			if(mSprite.getX()+mSprite.getScaledWidth() < 0) {
 				mSprite.setX(mSpriteNext.getX()+mSpriteNext.getScaledWidth());
@@ -211,4 +238,58 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 			mSpriteNext.setPhysicsHandler(physicsHandlerNext);
 		}
 	}
+	
+	// ===========================================================
+	// Class
+	// ===========================================================
+	public void addFollower(Sprite sprite, float xOffset, float yOffset) {
+		PhysicsHandler physicsHandler;
+		if(sprite.getPhysicsHandler() == null) {
+			physicsHandler = new PhysicsHandler(sprite);
+			sprite.setPhysicsHandler(physicsHandler);
+		} else {
+			physicsHandler = sprite.getPhysicsHandler();
+		}
+		physicsHandler.setVelocityX(mVelocityX);
+		
+		sprite.setPosition(mSprite.getX()+xOffset,mSprite.getY()+yOffset);
+		
+		
+		
+		mFollowers.add(new Follower(sprite, xOffset, yOffset));
+	}
+	
+	
+	private class Follower {
+		private Sprite sprite;
+		private float xOffset, yOffset;
+		
+		public Follower(Sprite sprite, float xOffset, float yOffset) {
+			super();
+			this.sprite = sprite;
+			this.xOffset = xOffset;
+			this.yOffset = yOffset;
+		}
+		
+		public Sprite getSprite() {
+			return sprite;
+		}
+		public void setSprite(Sprite sprite) {
+			this.sprite = sprite;
+		}
+		public float getxOffset() {
+			return xOffset;
+		}
+		public void setxOffset(float xOffset) {
+			this.xOffset = xOffset;
+		}
+		public float getyOffset() {
+			return yOffset;
+		}
+		public void setyOffset(float yOffset) {
+			this.yOffset = yOffset;
+		}
+	}
+	
+	
 }

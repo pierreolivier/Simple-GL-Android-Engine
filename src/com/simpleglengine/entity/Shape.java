@@ -83,6 +83,7 @@ public abstract class Shape implements Entity {
 		this.mX = x;
 		this.mY = y;
 	}
+	
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
