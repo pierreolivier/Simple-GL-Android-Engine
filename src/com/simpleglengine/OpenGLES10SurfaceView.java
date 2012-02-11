@@ -2,6 +2,8 @@ package com.simpleglengine;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
+import android.view.MotionEvent;
 
 public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
@@ -33,7 +35,9 @@ public class OpenGLES10SurfaceView extends GLSurfaceView {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
+	public boolean onTouchEvent(final MotionEvent event) {
+		return mRenderer.onTouch(event);
+	}
 	// ===========================================================
 	// Methods
 	// ===========================================================

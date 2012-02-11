@@ -6,6 +6,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.security.spec.MGF1ParameterSpec;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -30,6 +32,7 @@ import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class OpenGLES10Renderer implements Renderer {
 	// ===========================================================
@@ -48,16 +51,22 @@ public class OpenGLES10Renderer implements Renderer {
 	// GL context
 	private GL10 mGL;
 	
-	//Managers
+	// Managers
 	private TextureManager mTextureManager;
 	private FontManager mFontManager;
 	
-	//Scene
+	// Scene
 	private Scene mScene;
 	
-	//Alpha calculation
+	// runOnUpdateThread
+	private List <Runnable> mRunOnUpdateThread;
+	
+	// Alpha&FPS calculation
 	private double mLastUpdate = 0;
 	private FPSLogger mFpsLogger;
+	
+	// Pause
+	private boolean mPause;
 
 	// ===========================================================
 	// Constructors
@@ -101,7 +110,8 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
-
+		
+		gl.glHint(GL10.GL_TEXTURE_2D, GL10.GL_FASTEST);
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
@@ -119,7 +129,16 @@ public class OpenGLES10Renderer implements Renderer {
 		mScene.onDraw(gl);
 		
 		// Update phase
-		mScene.onUpdate((float) (alpha/1000.0f));
+		if(!mPause)
+			mScene.onUpdate((float) (alpha/1000.0f));
+		
+		// RunOnUpdateThread phase
+		if(mRunOnUpdateThread.size() > 0) {
+			for(Runnable runnable : mRunOnUpdateThread) {
+				runnable.run();
+			}
+			mRunOnUpdateThread.clear();
+		}
 		
 		// Log fps
 		mFpsLogger.log();
@@ -137,16 +156,15 @@ public class OpenGLES10Renderer implements Renderer {
 		// Set Camera
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
-		
-		//GLU.gluOrtho2D(gl, width , 0, height, 0);
-		
+			
 		GLU.gluOrtho2D(gl, 0 , width, height, 0);
 		
 		// Go to Model View Mode
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		
-		gl.glHint(GL10.GL_TEXTURE_2D, GL10.GL_FASTEST);
+
+		
 		// Init engine
 		init(gl);
 		
@@ -157,25 +175,46 @@ public class OpenGLES10Renderer implements Renderer {
 	// ===========================================================
 	public void init(GL10 gl) {
 		Scene scene;
+		
+		// Init vars
+		this.mGL = gl;		
+		
 		this.mTextureManager = new TextureManager(context, gl);
 		this.mFontManager = new FontManager(context, gl);
 		
-		this.mGL = gl;
+		this.mRunOnUpdateThread = new ArrayList<Runnable>();
 		
+		this.mPause = false;		
+		
+		// Loading phase
 		context.onLoadRessources();
         setScene(scene = context.onLoadScene());        
         context.onLoadComplete();
         
-        scene.onLoadSurface(gl);
-        
+        scene.onLoadSurface(gl);        
 		
+        // Init update timer
 		mLastUpdate = System.currentTimeMillis();
 		mFpsLogger = new FPSLogger();
 	}
 
+	public void runOnUpdateThread(Runnable runnable) {
+		this.mRunOnUpdateThread.add(runnable);
+	}
+	
+	public boolean onTouch(MotionEvent event) {
+		return mScene.onTouch(event);
+	}
+	
+	public void pause() {
+		mPause = true;
+	}
+	
+	public void unPause() {
+		mPause = false;
+		mLastUpdate = System.currentTimeMillis();
+	}
 
 
-	
-	
 
 }

@@ -6,6 +6,9 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+import android.view.MotionEvent;
+
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
@@ -91,6 +94,12 @@ public abstract class Shape implements Entity {
 	public void onUpdate(float alpha) {
 		if(this.mPhysicsHandler != null)
 			this.mPhysicsHandler.onUpdate(alpha);
+	}
+	
+	@Override
+	public boolean onTouch(MotionEvent event) {
+		
+		return false;
 	}
 	// ===========================================================
 	// Methods

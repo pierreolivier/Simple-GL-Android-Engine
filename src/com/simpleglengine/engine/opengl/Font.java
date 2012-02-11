@@ -38,6 +38,12 @@ public class Font {
 	public void setColor(float r, float g, float b) {
 		this.mTextureFontTools.SetPolyColor(r, g, b);
 	}
+	public int getWidth(String text) {
+		return mTextureFontTools.GetTextLength(text);
+	}
+	public int getHeight() {
+		return mTextureFontTools.GetTextHeight();
+	}
 	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

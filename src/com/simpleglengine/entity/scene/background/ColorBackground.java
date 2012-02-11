@@ -2,6 +2,8 @@ package com.simpleglengine.entity.scene.background;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.view.MotionEvent;
+
 import com.simpleglengine.entity.Entity;
 
 public class ColorBackground implements Entity {
@@ -70,6 +72,11 @@ public class ColorBackground implements Entity {
 	public void onUpdate(float alpha) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public boolean onTouch(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	// ===========================================================

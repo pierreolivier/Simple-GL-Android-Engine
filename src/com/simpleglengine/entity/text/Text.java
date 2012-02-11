@@ -41,6 +41,13 @@ public class Text extends Shape implements Entity{
 		this.mText = mText;
 	}
 	
+	public int getWidth() {
+		return mFont.getWidth(mText);
+	}
+	public int getHeight() {
+		return mFont.getHeight();
+	}
+	
 	@Override
 	public void setScale(float scale) {
 		// TODO Auto-generated method stub
@@ -65,7 +72,7 @@ public class Text extends Shape implements Entity{
 	public void onDraw(GL10 gl) {
 		gl.glLoadIdentity();
 		
-		mFont.draw(gl, mText, (int) mX, (int) mY);
+		mFont.draw(gl, mText, (int) mX, 480-(int) mY-getHeight());
 	}
 
 	@Override

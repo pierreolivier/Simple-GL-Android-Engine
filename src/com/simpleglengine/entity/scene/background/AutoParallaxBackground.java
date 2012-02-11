@@ -27,12 +27,12 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 	private int mYAutoParallaxBackground;
 	private float mVelocityX;
 	
+	private TextureBackground mTextureBackground = null;
+	
 	private Sprite mSprite = null, mSpriteNext = null;
 	
 	private List <Sprite> mSprites = null, mSpritesNexts = null;
-	private Sprite mLastSprite = null, mLastSpriteNext = null;
-	
-	private TextureBackground mTextureBackground = null;
+	private Sprite mLastSprite = null, mLastSpriteNext = null;	
 	
 	private List <Follower> mFollowers = null;
 	
@@ -71,6 +71,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.setScale(mScale);
 			mSpriteNext.setScale(mScale);
+			
+			for(Follower follower : this.mFollowers) {
+				follower.getSprite().setScale(scale);
+			}
 		}
 		
 		//load(mTexture, mYAutoParallaxBackground, mVelocityX);
