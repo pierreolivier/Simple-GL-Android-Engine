@@ -1,6 +1,7 @@
 package com.simpleglengine;
 
 import com.simpleglengine.entity.scene.Scene;
+import com.simpleglengine.managers.AudioManager;
 import com.simpleglengine.managers.FontManager;
 import com.simpleglengine.managers.TextureManager;
 
@@ -88,6 +89,9 @@ public abstract class SimpleGLEngineActivity extends Activity {
 	}	
 	public void runOnUpdateThread(Runnable runnable) {
 		mRenderer.runOnUpdateThread(runnable);
+	}
+	public AudioManager getAudioManager() {
+		return mRenderer.getAudioManager();
 	}
 	
 	public void pause() {

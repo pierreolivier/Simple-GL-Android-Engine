@@ -4,10 +4,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.Font;
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 
-public class Text extends Shape implements Entity{
+public class Text extends Shape implements IEntity{
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -22,7 +22,7 @@ public class Text extends Shape implements Entity{
 	// Constructors
 	// ===========================================================
 	public Text(Font font, String text, int x, int y) {
-		super(x,y);
+		super(x,y,font.getWidth(text),font.getHeight());
 		
 		this.mFont = font;
 		this.mText = text;
@@ -41,12 +41,14 @@ public class Text extends Shape implements Entity{
 		this.mText = mText;
 	}
 	
-	public int getWidth() {
+	
+	public float getWidth() {
 		return mFont.getWidth(mText);
 	}
-	public int getHeight() {
+	public float getHeight() {
 		return mFont.getHeight();
 	}
+	
 	
 	@Override
 	public void setScale(float scale) {
@@ -72,7 +74,7 @@ public class Text extends Shape implements Entity{
 	public void onDraw(GL10 gl) {
 		gl.glLoadIdentity();
 		
-		mFont.draw(gl, mText, (int) mX, 480-(int) mY-getHeight());
+		mFont.draw(gl, mText, (int) mX, 480-(int) mY-(int) getHeight() );
 	}
 
 	@Override

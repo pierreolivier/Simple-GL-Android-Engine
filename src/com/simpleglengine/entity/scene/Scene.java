@@ -8,12 +8,12 @@ import javax.microedition.khronos.opengles.GL10;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.text.Text;
 
-public class Scene implements Entity {
+public class Scene implements IEntity {
 
 	// ===========================================================
 	// Constants
@@ -23,8 +23,8 @@ public class Scene implements Entity {
 	// Fields
 	// ===========================================================
 
-	private List <Entity> mChildren;
-	private Entity mBackground;
+	private List <IEntity> mChildren;
+	private IEntity mBackground;
 
 	private float mScale;
 
@@ -34,7 +34,7 @@ public class Scene implements Entity {
 	public Scene() {
 		super();
 
-		this.mChildren = new ArrayList<Entity>();
+		this.mChildren = new ArrayList<IEntity>();
 		this.mBackground = null;
 
 		this.mScale = 1;
@@ -51,7 +51,7 @@ public class Scene implements Entity {
 			this.mBackground.setScale(scale);
 
 		synchronized (mChildren) {
-			for(Entity pEntity : this.mChildren) {
+			for(IEntity pEntity : this.mChildren) {
 				pEntity.setScale(scale);
 			}
 		}
@@ -63,7 +63,7 @@ public class Scene implements Entity {
 		return mScale;
 	}
 
-	public void setBackground(Entity pEntity) {
+	public void setBackground(IEntity pEntity) {
 		this.mBackground = pEntity;
 	}
 
@@ -75,7 +75,7 @@ public class Scene implements Entity {
 		if(this.mBackground != null)
 			this.mBackground.onLoadSurface(gl);
 
-		for(Entity pEntity : this.mChildren) {
+		for(IEntity pEntity : this.mChildren) {
 			pEntity.onLoadSurface(gl);
 		}
 
@@ -86,7 +86,7 @@ public class Scene implements Entity {
 		if(this.mBackground != null)
 			this.mBackground.onDraw(gl);
 
-		for(Entity pEntity : this.mChildren) {
+		for(IEntity pEntity : this.mChildren) {
 			pEntity.onDraw(gl);
 		}
 
@@ -98,31 +98,23 @@ public class Scene implements Entity {
 			this.mBackground.onUpdate(alpha);
 
 
-		for(Entity pEntity : this.mChildren) {
+		for(IEntity pEntity : this.mChildren) {
 			pEntity.onUpdate(alpha);
 		}
 
 	}
-	
+
 	@Override
 	public boolean onTouch(MotionEvent event) {
-		
-		for(Entity pEntity : this.mChildren) {
-			if(pEntity instanceof Sprite) {
-				Sprite sprite = (Sprite) pEntity;
+
+		for(IEntity pEntity : this.mChildren) {
+			if(pEntity instanceof Shape) {
+				Shape shape = (Shape) pEntity;
 				float xTouch = event.getX(), yTouch = event.getY();
-				
-				if(xTouch >= sprite.getX() && xTouch <= sprite.getX()+sprite.getScaledWidth() &&
-						yTouch >= sprite.getY() && yTouch <= sprite.getY()+sprite.getScaledHeight() ) {
-					return sprite.onTouch(event);
-				}
-			} else if(pEntity instanceof Text) {				
-				Text text = (Text) pEntity;
-				float xTouch = event.getX(), yTouch = event.getY();
-				
-				if(xTouch >= text.getX() && xTouch <= text.getX()+text.getWidth() &&
-						yTouch >= text.getY() && yTouch <= text.getY()+text.getHeight() ) {
-					return text.onTouch(event);
+
+				if(xTouch >= shape.getX() && xTouch <= shape.getX()+shape.getScaledWidth() &&
+						yTouch >= shape.getY() && yTouch <= shape.getY()+shape.getScaledHeight() ) {
+					return shape.onTouch(event);
 				}
 			}
 		}
@@ -132,12 +124,12 @@ public class Scene implements Entity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	public void attachChild(Entity pEntity) {
+	public void attachChild(IEntity pEntity) {
 
 		this.mChildren.add(pEntity);
 
 	}
-	public void detachChild(Entity pEntity) {
+	public void detachChild(IEntity pEntity) {
 		this.mChildren.remove(pEntity);
 	}
 

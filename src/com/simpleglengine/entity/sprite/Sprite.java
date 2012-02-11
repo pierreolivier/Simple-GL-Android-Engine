@@ -12,7 +12,7 @@ import android.util.Log;
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 import com.simpleglengine.tools.ScreenTools;
 
@@ -25,13 +25,12 @@ public class Sprite extends Shape {
 	// Fields
 	// ===========================================================
 	protected Texture mTexture;
-	//protected PhysicsHandler mPhysicsHandler = null;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	public Sprite(Texture texture, int x, int y) {
-		super(x, y);
+		super(x, y, texture.getWidth(), texture.getHeight());
 		this.mTexture = texture;
 
 		float width = mTexture.getWidth(), height = mTexture.getHeight();
@@ -83,6 +82,7 @@ public class Sprite extends Shape {
 		return super.mScale;
 	}
 	
+	/*
 	public float getWidth() {
 		return mTexture.getWidth();
 	}
@@ -91,13 +91,14 @@ public class Sprite extends Shape {
 	public float getHeight() {
 		return mTexture.getHeight();
 	}
+	
 	public float getScaledWidth() {
 		return getWidth()*mScale;
 	}
 	public float getScaledHeight() {
 		return getHeight()*mScale;
 	}
-
+	 */
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================

@@ -13,7 +13,7 @@ import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 
-public abstract class Shape implements Entity {
+public abstract class Shape implements IEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -22,6 +22,7 @@ public abstract class Shape implements Entity {
 	// Fields
 	// ===========================================================
 	protected float mX, mY;
+	protected float mWidth, mHeight;
 	protected int mRotation;
 	protected int mXRotationCenter, mYRotationCenter;
 	
@@ -37,14 +38,16 @@ public abstract class Shape implements Entity {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	protected Shape(int x, int y) {
+	protected Shape(int x, int y, int width, int height) {
 		super();
 		
 		this.mRotation = 0;
 		this.mXRotationCenter = 0;
 		this.mYRotationCenter = 0;
 		this.mX = x;
-		this.mY = y;		
+		this.mY = y;
+		this.mWidth = width;
+		this.mHeight = height;
 		
 		this.mScale = 1;
 		this.mPostRescale = false;
@@ -72,6 +75,19 @@ public abstract class Shape implements Entity {
 	public void setY(float y) {
 		this.mY = y;
 	}
+	public float getWidth() {
+		return mWidth;
+	}	
+	public float getHeight() {
+		return mHeight;
+	}	
+	public float getScaledWidth() {
+		return getWidth()*mScale;
+	}
+	public float getScaledHeight() {
+		return getHeight()*mScale;
+	}
+	
 	public int getRotation() {
 		return mRotation;
 	}
@@ -97,13 +113,23 @@ public abstract class Shape implements Entity {
 	}
 	
 	@Override
-	public boolean onTouch(MotionEvent event) {
-		
+	public boolean onTouch(MotionEvent event) {		
 		return false;
 	}
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	protected void loadVertexBuffer(float [] vertex) {
+		this.mVertex = vertex;
+		this.mNoScaledVertex = this.mVertex.clone();
+		
+		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertex.length * 4);
+		byteBuffer.order(ByteOrder.nativeOrder());
+		this.mVertexBuffer = byteBuffer.asFloatBuffer();
+		this.mVertexBuffer.put(vertex);
+		this.mVertexBuffer.position(0);
+	}
+	
 	public void translate(float dX, float dY) {
 		this.mX += dX;
 		this.mY += dY;
@@ -114,17 +140,22 @@ public abstract class Shape implements Entity {
 	public void translateY(float dY) {
 		this.mY += dY;
 	}
-
 	
-	protected void loadVertexBuffer(float [] vertex) {
-		this.mVertex = vertex;
-		this.mNoScaledVertex = this.mVertex.clone();
-		
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertex.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		this.mVertexBuffer = byteBuffer.asFloatBuffer();
-		this.mVertexBuffer.put(vertex);
-		this.mVertexBuffer.position(0);
+	private boolean collidesWithPoint(float x, float y) {
+		if(x >= getX() && x <= getX()+getScaledWidth() &&
+				y >= getY() && y <= getY()+getScaledHeight() ) {
+			return true;
+		} else
+			return false;
+	}
+	public boolean collidesWith(Shape shape) {
+		if( collidesWithPoint(shape.getX(),shape.getY()) ||            
+			collidesWithPoint(shape.getX(),shape.getY()+getScaledHeight()) ||  	
+			collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()) ||  	
+			collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()+getScaledHeight())) {
+			return true;
+		} else
+			return false;
 	}
 	
 }

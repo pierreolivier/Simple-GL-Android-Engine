@@ -4,9 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.view.MotionEvent;
 
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 
-public class ColorBackground implements Entity {
+public class ColorBackground implements IEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

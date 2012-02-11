@@ -5,11 +5,11 @@ import javax.microedition.khronos.opengles.GL10;
 import android.util.Log;
 
 import com.simpleglengine.engine.opengl.Texture;
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.sprite.SpriteBatch;
 
-public class TextureBackground extends ColorBackground implements Entity {
+public class TextureBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

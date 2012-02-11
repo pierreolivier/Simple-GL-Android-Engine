@@ -15,6 +15,7 @@ import javax.microedition.khronos.opengles.GL10;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.entity.scene.Scene;
 import com.simpleglengine.entity.sprite.Sprite;
+import com.simpleglengine.managers.AudioManager;
 import com.simpleglengine.managers.BufferManager;
 import com.simpleglengine.managers.FontManager;
 import com.simpleglengine.managers.TextureManager;
@@ -54,6 +55,7 @@ public class OpenGLES10Renderer implements Renderer {
 	// Managers
 	private TextureManager mTextureManager;
 	private FontManager mFontManager;
+	private AudioManager mAudioManager;
 	
 	// Scene
 	private Scene mScene;
@@ -92,6 +94,10 @@ public class OpenGLES10Renderer implements Renderer {
 	public FontManager getFontManager() {
 		return mFontManager;
 	}
+	public AudioManager getAudioManager() {
+		return mAudioManager;
+	}
+
 	public int getFPS() {
 		return mFpsLogger.getFPS();
 	}
@@ -181,6 +187,7 @@ public class OpenGLES10Renderer implements Renderer {
 		
 		this.mTextureManager = new TextureManager(context, gl);
 		this.mFontManager = new FontManager(context, gl);
+		this.mAudioManager = new AudioManager(context);
 		
 		this.mRunOnUpdateThread = new ArrayList<Runnable>();
 		
@@ -203,7 +210,10 @@ public class OpenGLES10Renderer implements Renderer {
 	}
 	
 	public boolean onTouch(MotionEvent event) {
-		return mScene.onTouch(event);
+		if(mScene != null)
+			return mScene.onTouch(event);
+		else
+			return false;
 	}
 	
 	public void pause() {

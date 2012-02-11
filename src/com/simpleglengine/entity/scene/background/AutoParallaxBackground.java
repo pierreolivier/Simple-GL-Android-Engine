@@ -9,13 +9,13 @@ import android.util.Log;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.Texture;
-import com.simpleglengine.entity.Entity;
+import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.sprite.SpriteBatch;
 import com.simpleglengine.tools.ScreenTools;
 
-public class AutoParallaxBackground extends ColorBackground implements Entity {
+public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -62,10 +62,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 		load(mTexture, mYAutoParallaxBackground, mVelocityX);
 		
 		if(mSprites != null && mSpritesNexts != null) {
-			for(Entity pEntity : this.mSprites) {
+			for(IEntity pEntity : this.mSprites) {
 				pEntity.setScale(mScale);
 			}
-			for(Entity pEntity : this.mSpritesNexts) {
+			for(IEntity pEntity : this.mSpritesNexts) {
 				pEntity.setScale(mScale);
 			}
 		} else if (mSprite != null && mSpriteNext != null) {
@@ -101,10 +101,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 			mTextureBackground.onLoadSurface(gl);
 		
 		if(mSprites != null && mSpritesNexts != null) {
-			for(Entity pEntity : this.mSprites) {
+			for(IEntity pEntity : this.mSprites) {
 				pEntity.onLoadSurface(gl);
 			}
-			for(Entity pEntity : this.mSpritesNexts) {
+			for(IEntity pEntity : this.mSpritesNexts) {
 				pEntity.onLoadSurface(gl);
 			}
 		} else if (mSprite != null && mSpriteNext != null) {
@@ -125,10 +125,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 			mTextureBackground.onDraw(gl);
 		
 		if(mSprites != null && mSpritesNexts != null) {
-			for(Entity pEntity : this.mSprites) {
+			for(IEntity pEntity : this.mSprites) {
 				pEntity.onDraw(gl);
 			}
-			for(Entity pEntity : this.mSpritesNexts) {
+			for(IEntity pEntity : this.mSpritesNexts) {
 				pEntity.onDraw(gl);
 			}
 		} else if (mSprite != null && mSpriteNext != null) {
@@ -150,10 +150,10 @@ public class AutoParallaxBackground extends ColorBackground implements Entity {
 			mTextureBackground.onUpdate(alpha);
 		
 		if(mSprites != null && mSpritesNexts != null) {
-			for(Entity pEntity : this.mSprites) {
+			for(IEntity pEntity : this.mSprites) {
 				pEntity.onUpdate(alpha);
 			}
-			for(Entity pEntity : this.mSpritesNexts) {
+			for(IEntity pEntity : this.mSpritesNexts) {
 				pEntity.onUpdate(alpha);
 			}
 			
