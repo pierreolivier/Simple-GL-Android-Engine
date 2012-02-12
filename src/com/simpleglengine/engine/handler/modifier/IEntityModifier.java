@@ -1,8 +1,13 @@
 package com.simpleglengine.engine.handler.modifier;
 
+import com.simpleglengine.entity.IEntity;
+import com.simpleglengine.entity.Shape;
+
 public interface IEntityModifier {
-	public void onModifierStarted();
-	public void onModifierFinished();
+	public boolean isFinished();
 	
-	public void onUpdate(float alpha);
+	public void onModifierStarted(Shape shape);
+	public void onModifierFinished(Shape shape);
+	
+	public void onUpdate(Shape shape, float alpha);
 }

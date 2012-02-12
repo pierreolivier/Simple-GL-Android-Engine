@@ -3,6 +3,8 @@ package com.simpleglengine.entity;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
+import com.simpleglengine.engine.handler.modifier.IEntityModifier;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 
@@ -35,6 +38,9 @@ public abstract class Shape implements IEntity {
 	protected boolean mPostRescale;
 
 	protected PhysicsHandler mPhysicsHandler = null;
+	
+	protected List <IEntityModifier> mEntityModifier;
+	private IEntityModifier mEntityModifierMarkToBeRemoved;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -51,6 +57,9 @@ public abstract class Shape implements IEntity {
 		
 		this.mScale = 1;
 		this.mPostRescale = false;
+		
+		this.mEntityModifier = new ArrayList<IEntityModifier>();
+		this.mEntityModifierMarkToBeRemoved = null;
 	}
 	
 	// ===========================================================
@@ -110,6 +119,19 @@ public abstract class Shape implements IEntity {
 	public void onUpdate(float alpha) {
 		if(this.mPhysicsHandler != null)
 			this.mPhysicsHandler.onUpdate(alpha);
+		
+		if(mEntityModifier.size() > 0) {
+			for(IEntityModifier entityModifier : mEntityModifier) {
+				entityModifier.onUpdate(this, alpha);
+				
+				if(entityModifier.isFinished())
+					this.mEntityModifierMarkToBeRemoved = entityModifier;
+			}
+			if(mEntityModifierMarkToBeRemoved != null) {
+				removeEntityModifier(mEntityModifierMarkToBeRemoved);
+				this.mEntityModifierMarkToBeRemoved = null;
+			}			
+		}
 	}
 	
 	@Override
@@ -156,6 +178,16 @@ public abstract class Shape implements IEntity {
 			return true;
 		} else
 			return false;
+	}
+	
+	public void addEntityModifier(IEntityModifier entityModifier) {
+		this.mEntityModifier.add(entityModifier);
+	}	
+	public void removeEntityModifier(IEntityModifier entityModifier) {
+		this.mEntityModifier.remove(entityModifier);
+	}
+	public void clearEntityModifier() {
+		this.mEntityModifier.clear();
 	}
 	
 }
