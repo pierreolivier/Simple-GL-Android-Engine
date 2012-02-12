@@ -15,8 +15,8 @@ public class Text extends Shape implements IEntity{
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private Font mFont;
-	private String mText;
+	protected Font mFont;
+	protected String mText;
 	
 	// ===========================================================
 	// Constructors

@@ -1,8 +1,12 @@
-package com.simpleglengine.entity.sprite;
+package com.simpleglengine.entity.scene.menu;
 
-import com.simpleglengine.engine.opengl.Texture;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AnimatedSprite extends Sprite {
+import com.simpleglengine.entity.scene.Scene;
+import com.simpleglengine.entity.text.Text;
+
+public class Menu extends Scene {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -10,45 +14,46 @@ public class AnimatedSprite extends Sprite {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	protected Texture [] mTextures;
-	protected int mCurrentTexture;
-	protected double mDuration, mLastChange;
+	private List <Text> mItems;
+	private boolean mAutoPause;
+	private boolean mShow;
 	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public AnimatedSprite(Texture [] textures, int x, int y, double duration) {
-		super(textures[0], x, y);
+	public Menu() {
+		super();
 		
-		this.mTextures = textures;
-		this.mCurrentTexture = 0;
-		this.mDuration = duration;
+		this.mAutoPause = false;
+		this.mShow = false;
 	}
+
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
+	public boolean isAutoPause() {
+		return mAutoPause;
+	}
+	public void setAutoPause(boolean mAutoPause) {
+		this.mAutoPause = mAutoPause;
+	}
+	public boolean isShow() {
+		return mShow;
+	}	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	@Override
-	public void onUpdate(float alpha) {
-		super.onUpdate(alpha);
-		
-		if(System.currentTimeMillis() - mLastChange >= mDuration) {			
-			mTexture = mTextures[mCurrentTexture];
-			
-			mLastChange = System.currentTimeMillis();
-			
-			mCurrentTexture++;
-			if(mCurrentTexture >= mTextures.length) mCurrentTexture = 0;
-		}
-	}
+
+
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	
-	
+	public void show() {
+		this.mShow = true;
+	}	
+	public void hide() {
+		this.mShow = false;
+	}
 }

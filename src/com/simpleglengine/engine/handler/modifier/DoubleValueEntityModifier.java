@@ -22,6 +22,7 @@ public class DoubleValueEntityModifier implements IEntityModifier {
 
 	protected boolean mFinished;
 
+	protected IEntityModifierListener mEntityModifierListener;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -42,6 +43,13 @@ public class DoubleValueEntityModifier implements IEntityModifier {
 		this.mVelocityY = (finalY - initialY) / duration;
 
 		this.mFinished = false;
+		
+		this.mEntityModifierListener = null;
+	}
+	public DoubleValueEntityModifier(float duration, float initialX, float initialY, float finalX, float finalY, IEaseFunction easeFunction, IEntityModifierListener entityModifierListener) {
+		this(duration,initialX,initialY,finalX,finalY,easeFunction);
+		
+		this.mEntityModifierListener = entityModifierListener;
 	}
 	// ===========================================================
 	// Getter & Setter
@@ -50,18 +58,24 @@ public class DoubleValueEntityModifier implements IEntityModifier {
 	public boolean isFinished() {
 		return mFinished;
 	}
-
+	
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
 	public void onModifierStarted(Shape shape) {
 		shape.setPosition(mInitialX, mInitialY);
+		
+		if(mEntityModifierListener != null)
+			mEntityModifierListener.onModifierStarted(shape);
 	}
 	@Override
-	public void onModifierFinished(Shape shape) {
+	public void onModifierFinished(Shape shape) {		
 		shape.setPosition(mFinalX, mFinalY);
 
+		if(mEntityModifierListener != null && !mFinished)
+			mEntityModifierListener.onModifierFinished(shape);
+		
 		this.mFinished = true;
 	}
 	@Override

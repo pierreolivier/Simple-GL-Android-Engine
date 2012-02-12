@@ -13,7 +13,7 @@ public class PhysicsHandler {
 	// Fields
 	// ===========================================================
 
-	private boolean mEnabled = true;
+	protected boolean mEnabled = true;
 
 	protected float mAccelerationX = 0;
 	protected float mAccelerationY = 0;
@@ -23,7 +23,7 @@ public class PhysicsHandler {
 
 	protected float mAngularVelocity = 0;
 
-	protected Shape pEntity;
+	protected Shape mEntity;
 
 	// ===========================================================
 	// Constructors
@@ -32,7 +32,7 @@ public class PhysicsHandler {
 	public PhysicsHandler(Shape shape) {
 		super();
 
-		this.pEntity = shape;
+		this.mEntity = shape;
 	}
 
 	// ===========================================================
@@ -129,14 +129,14 @@ public class PhysicsHandler {
 			/* Apply angular velocity. */
 			final float angularVelocity = this.mAngularVelocity;
 			if(angularVelocity != 0) {
-				pEntity.setRotation((int) (pEntity.getRotation() + angularVelocity * pSecondsElapsed));
+				mEntity.setRotation((int) (mEntity.getRotation() + angularVelocity * pSecondsElapsed));
 			}
 
 			/* Apply linear velocity. */
 			final float velocityX = this.mVelocityX;
 			final float velocityY = this.mVelocityY;
 			if(velocityX != 0 || velocityY != 0) {
-				pEntity.setPosition(pEntity.getX() + velocityX * pSecondsElapsed, pEntity.getY() + velocityY * pSecondsElapsed);
+				mEntity.setPosition(mEntity.getX() + velocityX * pSecondsElapsed, mEntity.getY() + velocityY * pSecondsElapsed);
 			}
 		}
 	}

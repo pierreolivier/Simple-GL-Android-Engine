@@ -19,9 +19,9 @@ public class TextureBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	//private boolean mRepeatX, mRepeatY;
 	//private float mXMin, mXMax, mYMin, mYMax;
-	private SpriteBatch mSpriteBatch = null;
+	protected SpriteBatch mSpriteBatch = null;
 	
-	private Sprite mSprite = null;
+	protected Sprite mSprite = null;
 
 	// ===========================================================
 	// Constructors

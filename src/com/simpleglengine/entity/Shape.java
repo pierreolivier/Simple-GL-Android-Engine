@@ -141,6 +141,7 @@ public abstract class Shape implements IEntity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	/*
 	protected void loadVertexBuffer(float [] vertex) {
 		this.mVertex = vertex;
 		this.mNoScaledVertex = this.mVertex.clone();
@@ -150,7 +151,7 @@ public abstract class Shape implements IEntity {
 		this.mVertexBuffer = byteBuffer.asFloatBuffer();
 		this.mVertexBuffer.put(vertex);
 		this.mVertexBuffer.position(0);
-	}
+	}*/
 	
 	public void translate(float dX, float dY) {
 		this.mX += dX;

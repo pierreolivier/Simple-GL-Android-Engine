@@ -48,25 +48,25 @@ public class OpenGLES10Renderer implements Renderer {
 	public static float ratio = 1.77916667f;
 	public static int width = 854;
 	public static int height = 480;
-	
+
 	// GL context
 	private GL10 mGL;
-	
+
 	// Managers
 	private TextureManager mTextureManager;
 	private FontManager mFontManager;
 	private AudioManager mAudioManager;
-	
+
 	// Scene
 	private Scene mScene;
-	
+
 	// runOnUpdateThread
 	private List <Runnable> mRunOnUpdateThread;
-	
+
 	// Alpha&FPS calculation
 	private double mLastUpdate = 0;
 	private FPSLogger mFpsLogger;
-	
+
 	// Pause
 	private boolean mPause;
 
@@ -75,7 +75,7 @@ public class OpenGLES10Renderer implements Renderer {
 	// ===========================================================	
 	public OpenGLES10Renderer(SimpleGLEngineActivity context) {
 		this.context = context;
-		
+
 		this.mScene = null;
 	}	
 
@@ -112,32 +112,38 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		gl.glEnable(GL10.GL_TEXTURE_2D);
-		
+
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		gl.glDisable(GL10.GL_DEPTH_TEST);
-		
+
 		gl.glHint(GL10.GL_TEXTURE_2D, GL10.GL_FASTEST);
-		
+
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}	
 	@Override
 	public void onDrawFrame(GL10 gl) {		
 		double alpha = System.currentTimeMillis() - mLastUpdate;
-		
+
 		// Clear screen
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		
+
 
 		// Draw phase
 		mScene.onDraw(gl);
-		
+
 		// Update phase
+		//if(!mPause) {
+		if(mScene.getMenu() != null && mScene.getMenu().isShow() && mScene.getMenu().isAutoPause())
+			mPause = true;
+		if(mScene.getMenu() != null && !mScene.getMenu().isShow() && mScene.getMenu().isAutoPause())
+			mPause = false;
 		if(!mPause)
 			mScene.onUpdate((float) (alpha/1000.0f));
-		
+		//}
+
 		// RunOnUpdateThread phase
 		if(mRunOnUpdateThread.size() > 0) {
 			for(Runnable runnable : mRunOnUpdateThread) {
@@ -145,10 +151,10 @@ public class OpenGLES10Renderer implements Renderer {
 			}
 			mRunOnUpdateThread.clear();
 		}
-		
+
 		// Log fps
 		mFpsLogger.log();
-		
+
 		mLastUpdate = System.currentTimeMillis();
 	}
 	@Override
@@ -158,49 +164,49 @@ public class OpenGLES10Renderer implements Renderer {
 		this.width = width;
 		this.height = height;
 		ratio = (float) width / height;
-		
+
 		// Set Camera
 		gl.glMatrixMode(GL10.GL_PROJECTION);
 		gl.glLoadIdentity();
-			
+
 		GLU.gluOrtho2D(gl, 0 , width, height, 0);
-		
+
 		// Go to Model View Mode
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		
 
-		
+
+
 		// Init engine
 		init(gl);
-		
+
 	}
-	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
 	public void init(GL10 gl) {
 		Scene scene;
-		
+
 		// Init vars
 		this.mGL = gl;		
-		
+
 		this.mTextureManager = new TextureManager(context, gl);
 		this.mFontManager = new FontManager(context, gl);
 		this.mAudioManager = new AudioManager(context);
-		
+
 		this.mRunOnUpdateThread = new ArrayList<Runnable>();
-		
+
 		this.mPause = false;		
-		
+
 		// Loading phase
 		context.onLoadRessources();
-        setScene(scene = context.onLoadScene());        
-        context.onLoadComplete();
-        
-        scene.onLoadSurface(gl);        
-		
-        // Init update timer
+		setScene(scene = context.onLoadScene());        
+		context.onLoadComplete();
+
+		scene.onLoadSurface(gl);        
+
+		// Init update timer
 		mLastUpdate = System.currentTimeMillis();
 		mFpsLogger = new FPSLogger();
 	}
@@ -208,18 +214,18 @@ public class OpenGLES10Renderer implements Renderer {
 	public void runOnUpdateThread(Runnable runnable) {
 		this.mRunOnUpdateThread.add(runnable);
 	}
-	
+
 	public boolean onTouch(MotionEvent event) {
 		if(mScene != null)
 			return mScene.onTouch(event);
 		else
 			return false;
 	}
-	
+
 	public void pause() {
 		mPause = true;
 	}
-	
+
 	public void unPause() {
 		mPause = false;
 		mLastUpdate = System.currentTimeMillis();

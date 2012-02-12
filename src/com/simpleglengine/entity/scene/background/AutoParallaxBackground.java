@@ -23,20 +23,20 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private Texture mTexture;
-	private int mYAutoParallaxBackground;
-	private float mVelocityX;
+	protected Texture mTexture;
+	protected int mYAutoParallaxBackground;
+	protected float mVelocityX;
 	
-	private TextureBackground mTextureBackground = null;
+	protected TextureBackground mTextureBackground = null;
 	
 	private Sprite mSprite = null, mSpriteNext = null;
 	
 	private List <Sprite> mSprites = null, mSpritesNexts = null;
 	private Sprite mLastSprite = null, mLastSpriteNext = null;	
 	
-	private List <Follower> mFollowers = null;
+	protected List <Follower> mFollowers = null;
 	
-	private float mScale = 1.0f;
+	protected float mScale = 1.0f;
 
 	// ===========================================================
 	// Constructors

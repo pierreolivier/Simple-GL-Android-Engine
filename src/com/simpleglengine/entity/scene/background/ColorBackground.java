@@ -14,8 +14,8 @@ public class ColorBackground implements IEntity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private float mR, mG, mB, mA;
-	private boolean mExecuted;
+	protected float mR, mG, mB, mA;
+	protected boolean mExecuted;
 	
 	// ===========================================================
 	// Constructors

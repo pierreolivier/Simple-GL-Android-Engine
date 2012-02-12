@@ -15,8 +15,8 @@ public class SpriteBatch extends Sprite {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private boolean mPostBind, mPostUnbind;
-	private float [] mXs, mYs;
+	//private boolean mPostBind, mPostUnbind;
+	protected float [] mXs, mYs;
 
 	// ===========================================================
 	// Constructors
@@ -24,8 +24,8 @@ public class SpriteBatch extends Sprite {
 	public SpriteBatch(Texture texture, float [] x, float [] y) {
 		super(texture, (int) x[0],  (int) y[0]);
 
-		this.mPostBind = false; 
-		this.mPostUnbind = false;
+		//this.mPostBind = false; 
+		//this.mPostUnbind = false;
 
 		this.mXs = x;
 		this.mYs = y;
@@ -51,7 +51,7 @@ public class SpriteBatch extends Sprite {
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
 		//gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
-		this.mPostBind = false;
+		//this.mPostBind = false;
 		//}
 
 		
@@ -76,7 +76,7 @@ public class SpriteBatch extends Sprite {
 		//if(mPostUnbind) {
 		gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
-		this.mPostUnbind = false;
+		//this.mPostUnbind = false;
 		//}
 
 
@@ -86,6 +86,7 @@ public class SpriteBatch extends Sprite {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	/*
 	public void bind() {
 		this.mPostBind = true;
 	}
@@ -93,5 +94,5 @@ public class SpriteBatch extends Sprite {
 
 	public void unbind() {
 		this.mPostUnbind = true;
-	}
+	}*/
 }

@@ -43,7 +43,7 @@ public class Sprite extends Shape {
 
 		this.mBuffer = new GLBuffer(sprite);
 
-		loadVertexBuffer(sprite);
+		//loadVertexBuffer(sprite);
 
 
 	}

@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
+import com.simpleglengine.entity.scene.menu.Menu;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.text.Text;
 
@@ -23,10 +24,12 @@ public class Scene implements IEntity {
 	// Fields
 	// ===========================================================
 
-	private List <IEntity> mChildren;
-	private IEntity mBackground;
+	protected List <IEntity> mChildren;
+	protected IEntity mBackground;
 
-	private float mScale;
+	protected float mScale;
+
+	protected Menu mMenu;
 
 	// ===========================================================
 	// Constructors
@@ -38,6 +41,8 @@ public class Scene implements IEntity {
 		this.mBackground = null;
 
 		this.mScale = 1;
+
+		this.mMenu = null;
 	}
 
 	// ===========================================================
@@ -50,14 +55,12 @@ public class Scene implements IEntity {
 		if(this.mBackground != null)
 			this.mBackground.setScale(scale);
 
-		synchronized (mChildren) {
-			for(IEntity pEntity : this.mChildren) {
-				pEntity.setScale(scale);
-			}
+
+		for(IEntity pEntity : this.mChildren) {
+			pEntity.setScale(scale);
 		}
+
 	}
-
-
 	@Override
 	public float getScale() {
 		return mScale;
@@ -65,6 +68,15 @@ public class Scene implements IEntity {
 
 	public void setBackground(IEntity pEntity) {
 		this.mBackground = pEntity;
+	}
+
+
+	public Menu getMenu() {
+		return mMenu;
+	}
+
+	public void setMenu(Menu mMenu) {
+		this.mMenu = mMenu;
 	}
 
 	// ===========================================================
@@ -79,6 +91,9 @@ public class Scene implements IEntity {
 			pEntity.onLoadSurface(gl);
 		}
 
+		if(this.mMenu != null)
+			this.mMenu.onLoadSurface(gl);
+
 	}
 
 	@Override
@@ -90,6 +105,9 @@ public class Scene implements IEntity {
 			pEntity.onDraw(gl);
 		}
 
+		if(this.mMenu != null && this.mMenu.isShow())
+			this.mMenu.onDraw(gl);
+
 	}
 
 	@Override
@@ -97,27 +115,40 @@ public class Scene implements IEntity {
 		if(this.mBackground != null)
 			this.mBackground.onUpdate(alpha);
 
-
 		for(IEntity pEntity : this.mChildren) {
 			pEntity.onUpdate(alpha);
 		}
+
+		if(this.mMenu != null && this.mMenu.isShow())
+			this.mMenu.onUpdate(alpha);
 
 	}
 
 	@Override
 	public boolean onTouch(MotionEvent event) {
+		
+		if(this.mMenu != null && this.mMenu.isShow())
+			return this.mMenu.onTouch(event);
+		else {
+			boolean reponse = false;
+			for(IEntity pEntity : this.mChildren) {
+				if(pEntity instanceof Shape) {
+					Shape shape = (Shape) pEntity;
+					float xTouch = event.getX(), yTouch = event.getY();
 
-		for(IEntity pEntity : this.mChildren) {
-			if(pEntity instanceof Shape) {
-				Shape shape = (Shape) pEntity;
-				float xTouch = event.getX(), yTouch = event.getY();
-
-				if(xTouch >= shape.getX() && xTouch <= shape.getX()+shape.getScaledWidth() &&
-						yTouch >= shape.getY() && yTouch <= shape.getY()+shape.getScaledHeight() ) {
-					return shape.onTouch(event);
+					if(xTouch >= shape.getX() && xTouch <= shape.getX()+shape.getScaledWidth() &&
+							yTouch >= shape.getY() && yTouch <= shape.getY()+shape.getScaledHeight() ) {
+						reponse = shape.onTouch(event);
+						//return shape.onTouch(event);
+					}
+					if(reponse)
+						return true;
 				}
 			}
 		}
+
+
+
 		return false;
 	}
 
