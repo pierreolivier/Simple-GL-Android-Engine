@@ -14,7 +14,7 @@ public class Rectangle extends Shape {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private float mRed, mGreen, mBlue, mAlpha;
+	//private float mRed, mGreen, mBlue, mAlpha;
 	
 	// ===========================================================
 	// Constructors
@@ -31,10 +31,10 @@ public class Rectangle extends Shape {
 		};
 		this.mBuffer = new GLBuffer(rectangle);
 		
-		this.mAlpha = a;
-		this.mRed = r;
-		this.mGreen = g;
-		this.mBlue = b;
+		this.mA = a;
+		this.mR = r;
+		this.mG = g;
+		this.mB = b;
 	}
 
 	// ===========================================================
@@ -43,15 +43,15 @@ public class Rectangle extends Shape {
 
 	@Override
 	public void setScale(float scale) {		
-		float width = mTexture.getWidth(), height = mTexture.getHeight();
+		//float width = mTexture.getWidth(), height = mTexture.getHeight();
 
 		super.mScale = scale;
 
 		float sprite[] = {
-				width*scale, 	0f, 				0,
-				width*scale, 	height*scale, 	0,				
+				mWidth*scale, 	0f, 				0,
+				mWidth*scale, 	mHeight*scale, 	0,				
 				0f, 			0f, 				0,			
-				0f, 			height*scale, 	0				
+				0f, 			mHeight*scale, 	0				
 		};
 
 
@@ -66,10 +66,10 @@ public class Rectangle extends Shape {
 	}
 	
 	public void setColor(float r, float g, float b, float a) {
-		this.mAlpha = a;
-		this.mRed = r;
-		this.mGreen = g;
-		this.mBlue = b;
+		this.mA = a;
+		this.mR = r;
+		this.mG = g;
+		this.mB = b;
 	}
 
 	// ===========================================================
@@ -100,11 +100,12 @@ public class Rectangle extends Shape {
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
 
-		gl.glColor4f(mRed, mGreen, mBlue, mAlpha);
+		gl.glColor4f(mR, mG, mB, mA);
 		
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 	}
 

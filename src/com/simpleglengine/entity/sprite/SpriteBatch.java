@@ -50,10 +50,12 @@ public class SpriteBatch extends Sprite {
 		
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
+		
+		gl.glColor4f(mR, mG, mB, mA);
 		//gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
 		//this.mPostBind = false;
 		//}
-
+		
 		
 		
 		
@@ -74,6 +76,7 @@ public class SpriteBatch extends Sprite {
 
 
 		//if(mPostUnbind) {
+		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 		//this.mPostUnbind = false;

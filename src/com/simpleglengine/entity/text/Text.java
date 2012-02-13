@@ -60,6 +60,11 @@ public class Text extends Shape implements IEntity{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	public void setColor(float r, float g, float b, float a) {
+		super.setColor(r, g, b, a);
+		
+		this.mFont.setColor(r, g, b);
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces

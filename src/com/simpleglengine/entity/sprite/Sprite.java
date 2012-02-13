@@ -138,9 +138,12 @@ public class Sprite extends Shape {
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
 			//gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
 
-
+		gl.glColor4f(mR, mG, mB, mA);
+		
 		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
 
+		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 

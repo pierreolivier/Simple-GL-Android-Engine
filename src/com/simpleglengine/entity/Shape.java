@@ -28,6 +28,7 @@ public abstract class Shape implements IEntity {
 	protected float mWidth, mHeight;
 	protected int mRotation;
 	protected int mXRotationCenter, mYRotationCenter;
+	protected float mR, mG, mB, mA;
 	
 	protected FloatBuffer mVertexBuffer;
 	protected float [] mVertex = null, mNoScaledVertex = null;
@@ -54,6 +55,10 @@ public abstract class Shape implements IEntity {
 		this.mY = y;
 		this.mWidth = width;
 		this.mHeight = height;
+		this.mR = 1.0f;
+		this.mG = 1.0f;
+		this.mB = 1.0f;
+		this.mA = 1.0f;
 		
 		this.mScale = 1;
 		this.mPostRescale = false;
@@ -110,6 +115,12 @@ public abstract class Shape implements IEntity {
 	public void setPosition(float x, float y) {
 		this.mX = x;
 		this.mY = y;
+	}
+	public void setColor(float r, float g, float b, float a) {
+		this.mR = r;
+		this.mG = g;
+		this.mB = b;
+		this.mA = a;
 	}
 	
 
