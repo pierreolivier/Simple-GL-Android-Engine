@@ -12,8 +12,10 @@ import android.util.Log;
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
+import com.simpleglengine.tools.GLGraphics;
 import com.simpleglengine.tools.ScreenTools;
 
 public class Sprite extends Shape {
@@ -24,16 +26,17 @@ public class Sprite extends Shape {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	protected Texture mTexture;
+	//protected Texture mTexture;
+	protected TextureRegion mTextureRegion;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public Sprite(Texture texture, int x, int y) {
-		super(x, y, texture.getWidth(), texture.getHeight());
-		this.mTexture = texture;
+	public Sprite(TextureRegion textureRegion, int x, int y) {
+		super(x, y, textureRegion.getWidth(), textureRegion.getHeight());
+		this.mTextureRegion = textureRegion;
 
-		float width = mTexture.getWidth(), height = mTexture.getHeight();
+		float width = mTextureRegion.getWidth(), height = mTextureRegion.getHeight();
 		float sprite[] = {
 				width, 	0f, 		0,
 				width, 	height, 	0,				
@@ -53,7 +56,7 @@ public class Sprite extends Shape {
 	// ===========================================================
 
 	public void setScale(float scale) {		
-		float width = mTexture.getWidth(), height = mTexture.getHeight();
+		float width = mTextureRegion.getWidth(), height = mTextureRegion.getHeight();
 
 		super.mScale = scale;
 
@@ -120,6 +123,7 @@ public class Sprite extends Shape {
 			mPostRescale = false;
 		}
 		
+
 		
 		gl.glTranslatef(super.mX, super.mY, 0);
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f);
@@ -130,9 +134,11 @@ public class Sprite extends Shape {
 		//gl.glTranslatef(super.mXRotationCenter, super.mYRotationCenter, 0); //Offset
 		//gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
 		//gl.glTranslatef(-super.mXRotationCenter, -super.mXRotationCenter, 0); //Milieu + centre de rotation
-
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTexture.getTextureId());
-		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTexture.getTextureBuffer());
+		if(GLGraphics.currentTextureId != mTextureRegion.getTexture().getTextureId())
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureRegion.getTexture().getTextureId());
+		GLGraphics.currentTextureId = mTextureRegion.getTexture().getTextureId();
+		
+		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, this.mTextureRegion.getTextureBuffer());
 
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
@@ -144,7 +150,7 @@ public class Sprite extends Shape {
 
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		//gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 
 

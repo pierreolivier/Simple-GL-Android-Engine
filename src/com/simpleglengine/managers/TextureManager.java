@@ -58,7 +58,7 @@ public class TextureManager {
 	public Texture loadTextureFromBitmap(Bitmap bitmap) {		
 		Matrix aMatrix = new Matrix();
 		aMatrix.preScale(-1.0f, 1.0f);
-		bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), aMatrix, false);
+		//bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), aMatrix, false);
 		
 		int [] textures = mTextures.clone();
 

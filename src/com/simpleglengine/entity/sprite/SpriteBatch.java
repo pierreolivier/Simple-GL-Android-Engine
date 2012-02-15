@@ -5,6 +5,8 @@ import javax.microedition.khronos.opengles.GL11;
 import javax.microedition.khronos.opengles.GL11Ext;
 
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
+import com.simpleglengine.tools.GLGraphics;
 import com.simpleglengine.tools.ScreenTools;
 
 public class SpriteBatch extends Sprite {
@@ -21,8 +23,8 @@ public class SpriteBatch extends Sprite {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public SpriteBatch(Texture texture, float [] x, float [] y) {
-		super(texture, (int) x[0],  (int) y[0]);
+	public SpriteBatch(TextureRegion textureRegion, float [] x, float [] y) {
+		super(textureRegion, (int) x[0],  (int) y[0]);
 
 		//this.mPostBind = false; 
 		//this.mPostUnbind = false;
@@ -45,8 +47,11 @@ public class SpriteBatch extends Sprite {
 		gl.glLoadIdentity();
 
 		//if(mPostBind) {
-		gl.glBindTexture(GL11.GL_TEXTURE_2D, mTexture.getTextureId());
-		gl.glTexCoordPointer(2, GL11.GL_FLOAT, 0, this.mTexture.getTextureBuffer());
+		if(GLGraphics.currentTextureId != mTextureRegion.getTexture().getTextureId())
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureRegion.getTexture().getTextureId());
+		GLGraphics.currentTextureId = mTextureRegion.getTexture().getTextureId();
+		
+		gl.glTexCoordPointer(2, GL11.GL_FLOAT, 0, this.mTextureRegion.getTextureBuffer());
 		
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
@@ -77,7 +82,7 @@ public class SpriteBatch extends Sprite {
 
 		//if(mPostUnbind) {
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		//gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 		//this.mPostUnbind = false;
 		//}

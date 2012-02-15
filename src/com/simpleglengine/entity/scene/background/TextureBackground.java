@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.util.Log;
 
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.sprite.SpriteBatch;
@@ -26,26 +27,26 @@ public class TextureBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public TextureBackground(Texture texture, int x, int y) {
+	public TextureBackground(TextureRegion textureRegion, int x, int y) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		this.mSprite = new Sprite(texture, x, y);
+		this.mSprite = new Sprite(textureRegion, x, y);
 	}
-	public TextureBackground(Texture texture, float mXMin, float mXMax, float mYMin, float mYMax) {
+	public TextureBackground(TextureRegion textureRegion, float mXMin, float mXMax, float mYMin, float mYMax) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
 
-		int width = (int) ((mXMax-mXMin)/texture.getWidth());//(int) (mXMax/mXMin);
-		int height = (int) ((mYMax-mYMin)/texture.getHeight());
+		int width = (int) ((mXMax-mXMin)/textureRegion.getWidth());//(int) (mXMax/mXMin);
+		int height = (int) ((mYMax-mYMin)/textureRegion.getHeight());
 		float [] x = new float[width*height], y = new float[width*height];
 
 		int k = 0;
 		for(int i = 0; i < width*height;i++) {
-			x[k] = mXMin + texture.getWidth()*(i%width);
-			y[k] = mYMin + texture.getWidth()*(i/width);
+			x[k] = mXMin + textureRegion.getWidth()*(i%width);
+			y[k] = mYMin + textureRegion.getWidth()*(i/width);
 			k++;
 		}
 
-		this.mSpriteBatch = new SpriteBatch(texture, x, y);
+		this.mSpriteBatch = new SpriteBatch(textureRegion, x, y);
 	}
 
 	// ===========================================================

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.simpleglengine.engine.handler.PhysicsHandler;
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.sprite.Sprite;
@@ -23,7 +24,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	protected Texture mTexture;
+	protected TextureRegion mTextureRegion;
 	protected int mYAutoParallaxBackground;
 	protected float mVelocityX;
 	
@@ -41,14 +42,14 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public AutoParallaxBackground(Texture texture, int y, float velocityX) {
+	public AutoParallaxBackground(TextureRegion textureRegion, int y, float velocityX) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
 		
-		this.mTexture = texture;
+		this.mTextureRegion = textureRegion;
 		this.mYAutoParallaxBackground = y;
 		this.mVelocityX = velocityX;
 		
-		load(texture, y, velocityX);
+		load(textureRegion, y, velocityX);
 		
 		this.mFollowers = new ArrayList<Follower>();
 	}
@@ -59,7 +60,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	public void setScale(float scale) {
 		mScale = scale;
 		
-		load(mTexture, mYAutoParallaxBackground, mVelocityX);
+		load(mTextureRegion, mYAutoParallaxBackground, mVelocityX);
 		
 		if(mSprites != null && mSpritesNexts != null) {
 			for(IEntity pEntity : this.mSprites) {
@@ -201,27 +202,27 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// Methods
 	// ===========================================================
 	
-	public void load(Texture texture, int y, float velocityX) {
-		if(mScale*texture.getWidth() <= ScreenTools.getWidth()) {
+	public void load(TextureRegion textureRegion, int y, float velocityX) {
+		if(mScale*textureRegion.getWidth() <= ScreenTools.getWidth()) {
 			int xNext = ScreenTools.getWidth();
 
 			mSprites = new ArrayList<Sprite>();
 			mSpritesNexts = new ArrayList<Sprite>();
 
-			for(int i = 0; i <= ScreenTools.getWidth();i+=mScale*texture.getWidth()) {
-				Sprite spriteTemp = new Sprite(texture, i, y);
+			for(int i = 0; i <= ScreenTools.getWidth();i+=mScale*textureRegion.getWidth()) {
+				Sprite spriteTemp = new Sprite(textureRegion, i, y);
 				PhysicsHandler physicsHandler = new PhysicsHandler(spriteTemp);
 				physicsHandler.setVelocityX(velocityX);
 				spriteTemp.setPhysicsHandler(physicsHandler);				
 
 				mSprites.add(spriteTemp);
 
-				xNext = (int) (spriteTemp.getX()+mScale*texture.getWidth());
+				xNext = (int) (spriteTemp.getX()+mScale*textureRegion.getWidth());
 				mLastSprite = spriteTemp;
 			}
 
-			for(int i = xNext; i <= 2*ScreenTools.getWidth();i+=mScale*texture.getWidth()) {
-				Sprite spriteTemp = new Sprite(texture, i, y);
+			for(int i = xNext; i <= 2*ScreenTools.getWidth();i+=mScale*textureRegion.getWidth()) {
+				Sprite spriteTemp = new Sprite(textureRegion, i, y);
 				PhysicsHandler physicsHandler = new PhysicsHandler(spriteTemp);
 				physicsHandler.setVelocityX(velocityX);
 				spriteTemp.setPhysicsHandler(physicsHandler);				
@@ -231,12 +232,12 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 				mLastSpriteNext = spriteTemp;
 			}
 		} else {
-			mSprite = new Sprite(texture, 0, y);
+			mSprite = new Sprite(textureRegion, 0, y);
 			PhysicsHandler physicsHandler = new PhysicsHandler(mSprite);
 			physicsHandler.setVelocityX(velocityX);
 			mSprite.setPhysicsHandler(physicsHandler);
 
-			mSpriteNext = new Sprite(texture, (int) (0 + mScale*texture.getWidth()), y);
+			mSpriteNext = new Sprite(textureRegion, (int) (0 + mScale*textureRegion.getWidth()), y);
 			PhysicsHandler physicsHandlerNext = new PhysicsHandler(mSpriteNext);
 			physicsHandlerNext.setVelocityX(velocityX);
 			mSpriteNext.setPhysicsHandler(physicsHandlerNext);

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Texture {
+public class TextureRegion {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -12,66 +12,63 @@ public class Texture {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private int mTextureId;
-	//private FloatBuffer mTextureBuffer;
+	private Texture mTexture;
+	private FloatBuffer mTextureBuffer;
+	private float mX, mY, mWidth, mHeight;
 	
-	private int mWidth, mHeight;
+	private float u1, v1, u2, v2;
 	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public Texture(int textureId, int width, int height) {
-		// Set texture id
-		this.mTextureId = textureId;
+	public TextureRegion(Texture texture, float x, float y, float width, float height) {
+		this.mTexture = texture;
 		
-		// Set width and height
+		this.mX = x;
+		this.mY = y;
 		this.mWidth = width;
 		this.mHeight = height;
 		
-		// Set coordinates on shape
-		
-		/*
-		float textureCoordinates[] = {
-				0.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				1.0f, 1.0f 
-		};
+		this.u1 = convert(x) / texture.getWidth();
+		this.v1 = y / texture.getHeight();
+		this.u2 = this.u1 + convert(width) / texture.getWidth();
+		this.v2 = this.v1 + height / texture.getHeight();
 		
 		float textureCoordinates[] = {
-				0.5f, 0.5f,
-				0.5f, 1.0f,
-				1.0f, 0.5f,
-				1.0f, 1.0f 
+				u2, v1,
+				u2, v2,
+				u1, v1,
+				u1, v2 
 		};
 		
-	
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(textureCoordinates.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mTextureBuffer = byteBuffer.asFloatBuffer();
 		this.mTextureBuffer.put(textureCoordinates);
-		this.mTextureBuffer.position(0);*/
+		this.mTextureBuffer.position(0);
 	}
 
 	// ===========================================================
 	// Getter & Setter
-	// ===========================================================	
-	public int getTextureId() {
-		return mTextureId;
-	}
-	/*
+	// ===========================================================
+	
 	public FloatBuffer getTextureBuffer() {
 		return mTextureBuffer;
-	}*/
+	}
 
-	public int getWidth() {
+	public Texture getTexture() {
+		return mTexture;
+	}
+
+	public float getWidth() {
 		return mWidth;
 	}
 
-	public int getHeight() {
+	public float getHeight() {
 		return mHeight;
 	}
-	
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -79,7 +76,8 @@ public class Texture {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	
-	
+	public float convert(float x) {
+		return x;
+		//return - x + 1;
+	}
 }

@@ -331,6 +331,7 @@ public class TextureFontTools
 		gl.glColor4f(redVal, greenVal, blueVal, 1.0f);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, texID);
+		GLGraphics.currentTextureId = texID;
 
 		// Loop through each character of the string
 		for(int index = 0 ; index != text.length(); ++index )
@@ -357,7 +358,7 @@ public class TextureFontTools
 		curX = (int)xPos;
 		
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		//gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 	}
 
 	// Print a line of text to screen at specified co-ords
@@ -378,6 +379,7 @@ public class TextureFontTools
 		gl.glColor4f(redVal, greenVal, blueVal, 1.0f);
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, texID);
+		GLGraphics.currentTextureId = texID;
 
 		// Loop through each character of the string
 		for(int index = 0 ; index != text.length(); ++index )
@@ -404,7 +406,7 @@ public class TextureFontTools
 		curX = (int)xPos;
 		
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
+		//gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 	}
 
 	// Return the length (pixels) of a string

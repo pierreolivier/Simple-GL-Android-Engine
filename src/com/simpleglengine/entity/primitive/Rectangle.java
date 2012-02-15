@@ -97,6 +97,7 @@ public class Rectangle extends Shape {
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f);
 		gl.glTranslatef(-super.mXRotationCenter*mScale, -super.mYRotationCenter*mScale, 0);
 
+		gl.glBindTexture(GL10.GL_TEXTURE_2D, 0);
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
 

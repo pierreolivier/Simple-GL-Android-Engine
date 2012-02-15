@@ -1,6 +1,7 @@
 package com.simpleglengine.entity.sprite;
 
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
 
 public class AnimatedSprite extends Sprite {
 	// ===========================================================
@@ -10,17 +11,17 @@ public class AnimatedSprite extends Sprite {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	protected Texture [] mTextures;
+	protected TextureRegion [] mTexturesRegions;
 	protected int mCurrentTexture;
 	protected double mDuration, mLastChange;
 	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public AnimatedSprite(Texture [] textures, int x, int y, double duration) {
-		super(textures[0], x, y);
+	public AnimatedSprite(TextureRegion [] texturesRegions, int x, int y, double duration) {
+		super(texturesRegions[0], x, y);
 		
-		this.mTextures = textures;
+		this.mTexturesRegions = texturesRegions;
 		this.mCurrentTexture = 0;
 		this.mDuration = duration;
 	}
@@ -37,12 +38,12 @@ public class AnimatedSprite extends Sprite {
 		super.onUpdate(alpha);
 		
 		if(System.currentTimeMillis() - mLastChange >= mDuration) {			
-			mTexture = mTextures[mCurrentTexture];
+			mTextureRegion = mTexturesRegions[mCurrentTexture];
 			
 			mLastChange = System.currentTimeMillis();
 			
 			mCurrentTexture++;
-			if(mCurrentTexture >= mTextures.length) mCurrentTexture = 0;
+			if(mCurrentTexture >= mTexturesRegions.length) mCurrentTexture = 0;
 		}
 	}
 	// ===========================================================

@@ -32,7 +32,7 @@ public abstract class Shape implements IEntity {
 	
 	protected FloatBuffer mVertexBuffer;
 	protected float [] mVertex = null, mNoScaledVertex = null;
-	protected Texture mTexture = null;
+	//protected Texture mTexture = null;
 	protected GLBuffer mBuffer = null;
 	
 	protected float mScale;
@@ -45,7 +45,7 @@ public abstract class Shape implements IEntity {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	protected Shape(int x, int y, int width, int height) {
+	protected Shape(int x, int y, float width, float height) {
 		super();
 		
 		this.mRotation = 0;
