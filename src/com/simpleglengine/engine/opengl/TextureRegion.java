@@ -30,9 +30,9 @@ public class TextureRegion {
 		this.mWidth = width;
 		this.mHeight = height;
 		
-		this.u1 = convert(x) / texture.getWidth();
+		this.u1 = x / texture.getWidth();
 		this.v1 = y / texture.getHeight();
-		this.u2 = this.u1 + convert(width) / texture.getWidth();
+		this.u2 = this.u1 + width / texture.getWidth();
 		this.v2 = this.v1 + height / texture.getHeight();
 		
 		float textureCoordinates[] = {
@@ -41,7 +41,6 @@ public class TextureRegion {
 				u1, v1,
 				u1, v2 
 		};
-		
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(textureCoordinates.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mTextureBuffer = byteBuffer.asFloatBuffer();
@@ -76,8 +75,5 @@ public class TextureRegion {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	public float convert(float x) {
-		return x;
-		//return - x + 1;
-	}
+
 }

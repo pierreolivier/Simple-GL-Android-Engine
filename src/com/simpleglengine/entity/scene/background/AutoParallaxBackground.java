@@ -27,16 +27,16 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	protected TextureRegion mTextureRegion;
 	protected int mYAutoParallaxBackground;
 	protected float mVelocityX;
-	
-	protected TextureBackground mTextureBackground = null;
-	
+
+	protected IEntity mBackground = null;
+
 	private Sprite mSprite = null, mSpriteNext = null;
-	
+
 	private List <Sprite> mSprites = null, mSpritesNexts = null;
 	private Sprite mLastSprite = null, mLastSpriteNext = null;	
-	
+
 	protected List <Follower> mFollowers = null;
-	
+
 	protected float mScale = 1.0f;
 
 	// ===========================================================
@@ -44,13 +44,13 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	public AutoParallaxBackground(TextureRegion textureRegion, int y, float velocityX) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
-		
+
 		this.mTextureRegion = textureRegion;
 		this.mYAutoParallaxBackground = y;
 		this.mVelocityX = velocityX;
-		
+
 		load(textureRegion, y, velocityX);
-		
+
 		this.mFollowers = new ArrayList<Follower>();
 	}
 	// ===========================================================
@@ -59,9 +59,9 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	@Override
 	public void setScale(float scale) {
 		mScale = scale;
-		
+
 		load(mTextureRegion, mYAutoParallaxBackground, mVelocityX);
-		
+
 		if(mSprites != null && mSpritesNexts != null) {
 			for(IEntity pEntity : this.mSprites) {
 				pEntity.setScale(mScale);
@@ -72,12 +72,12 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.setScale(mScale);
 			mSpriteNext.setScale(mScale);
-			
+
 			for(Follower follower : this.mFollowers) {
 				follower.getSprite().setScale(scale);
 			}
 		}
-		
+
 		//load(mTexture, mYAutoParallaxBackground, mVelocityX);
 	}
 
@@ -86,9 +86,9 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 		// TODO Auto-generated method stub
 		return mScale;
 	}
-	
-	public void setTextureBackground(TextureBackground textureBackground) {
-		this.mTextureBackground = textureBackground;
+
+	public void setBackground(IEntity background) {
+		this.mBackground = background;
 	}
 
 	// ===========================================================
@@ -97,10 +97,10 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	@Override
 	public void onLoadSurface(GL10 gl) {
 		super.onLoadSurface(gl);
-		
-		if(mTextureBackground != null)
-			mTextureBackground.onLoadSurface(gl);
-		
+
+		if(mBackground != null)
+			mBackground.onLoadSurface(gl);
+
 		if(mSprites != null && mSpritesNexts != null) {
 			for(IEntity pEntity : this.mSprites) {
 				pEntity.onLoadSurface(gl);
@@ -111,7 +111,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.onLoadSurface(gl);
 			mSpriteNext.onLoadSurface(gl);
-			
+
 			for(Follower follower : this.mFollowers) {
 				follower.getSprite().onLoadSurface(gl);
 			}
@@ -121,10 +121,10 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	@Override
 	public void onDraw(GL10 gl) {
 		super.onDraw(gl);
-		
-		if(mTextureBackground != null)
-			mTextureBackground.onDraw(gl);
-		
+
+		if(mBackground != null)
+			mBackground.onDraw(gl);
+
 		if(mSprites != null && mSpritesNexts != null) {
 			for(IEntity pEntity : this.mSprites) {
 				pEntity.onDraw(gl);
@@ -135,7 +135,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 		} else if (mSprite != null && mSpriteNext != null) {
 			mSprite.onDraw(gl);
 			mSpriteNext.onDraw(gl);
-			
+
 			for(Follower follower : this.mFollowers) {
 				follower.getSprite().onDraw(gl);
 			}
@@ -146,54 +146,56 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	@Override
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
-		
-		if(mTextureBackground != null)
-			mTextureBackground.onUpdate(alpha);
-		
-		if(mSprites != null && mSpritesNexts != null) {
-			for(IEntity pEntity : this.mSprites) {
-				pEntity.onUpdate(alpha);
-			}
-			for(IEntity pEntity : this.mSpritesNexts) {
-				pEntity.onUpdate(alpha);
-			}
-			
-			if(mLastSprite.getX()+mLastSprite.getScaledWidth() < 0) {
-				float xTemp = mLastSpriteNext.getX()+mLastSpriteNext.getScaledWidth();
-				for(Sprite sprite : mSprites) {
-					sprite.setX(xTemp);
-					xTemp += mLastSpriteNext.getScaledWidth();
+
+		if(!mPause) {
+			if(mBackground != null)
+				mBackground.onUpdate(alpha);
+
+			if(mSprites != null && mSpritesNexts != null) {
+				for(IEntity pEntity : this.mSprites) {
+					pEntity.onUpdate(alpha);
 				}
-			} else if(mLastSpriteNext.getX()+mLastSpriteNext.getScaledWidth() < 0) {
-				float xTemp = mLastSprite.getX()+mLastSprite.getScaledWidth();
-				for(Sprite sprite : mSpritesNexts) {
-					sprite.setX(xTemp);
-					xTemp += mLastSprite.getScaledWidth();
+				for(IEntity pEntity : this.mSpritesNexts) {
+					pEntity.onUpdate(alpha);
 				}
-			} 
-		} else if (mSprite != null && mSpriteNext != null) {
-			mSprite.onUpdate(alpha);
-			mSpriteNext.onUpdate(alpha);
-			
-			for(Follower follower : this.mFollowers) {
-				Sprite sprite = follower.getSprite();
-				
-				if(sprite.getX()+sprite.getScaledWidth() < 0) {
-					if(mSprite.getX()+follower.getxOffset()+sprite.getScaledWidth() < 0) {
-						sprite.setPosition(mSpriteNext.getX()+follower.getxOffset(),mSpriteNext.getY()+follower.getyOffset());
-					} else {
-						sprite.setPosition(mSprite.getX()+follower.getxOffset(),mSprite.getY()+follower.getyOffset());
+
+				if(mLastSprite.getX()+mLastSprite.getScaledWidth() < 0) {
+					float xTemp = mLastSpriteNext.getX()+mLastSpriteNext.getScaledWidth();
+					for(Sprite sprite : mSprites) {
+						sprite.setX(xTemp);
+						xTemp += mLastSpriteNext.getScaledWidth();
 					}
+				} else if(mLastSpriteNext.getX()+mLastSpriteNext.getScaledWidth() < 0) {
+					float xTemp = mLastSprite.getX()+mLastSprite.getScaledWidth();
+					for(Sprite sprite : mSpritesNexts) {
+						sprite.setX(xTemp);
+						xTemp += mLastSprite.getScaledWidth();
+					}
+				} 
+			} else if (mSprite != null && mSpriteNext != null) {
+				mSprite.onUpdate(alpha);
+				mSpriteNext.onUpdate(alpha);
+
+				for(Follower follower : this.mFollowers) {
+					Sprite sprite = follower.getSprite();
+
+					if(sprite.getX()+sprite.getScaledWidth() < 0) {
+						if(mSprite.getX()+follower.getxOffset()+sprite.getScaledWidth() < 0) {
+							sprite.setPosition(mSpriteNext.getX()+follower.getxOffset(),mSpriteNext.getY()+follower.getyOffset());
+						} else {
+							sprite.setPosition(mSprite.getX()+follower.getxOffset(),mSprite.getY()+follower.getyOffset());
+						}
+					}
+
+
+					sprite.onUpdate(alpha);
 				}
-					
-				
-				sprite.onUpdate(alpha);
-			}
-			
-			if(mSprite.getX()+mSprite.getScaledWidth() < 0) {
-				mSprite.setX(mSpriteNext.getX()+mSpriteNext.getScaledWidth());
-			} else if(mSpriteNext.getX()+mSpriteNext.getScaledWidth() < 0) {
-				mSpriteNext.setX(mSprite.getX()+mSprite.getScaledWidth());
+
+				if(mSprite.getX()+mSprite.getScaledWidth() < 0) {
+					mSprite.setX(mSpriteNext.getX()+mSpriteNext.getScaledWidth());
+				} else if(mSpriteNext.getX()+mSpriteNext.getScaledWidth() < 0) {
+					mSpriteNext.setX(mSprite.getX()+mSprite.getScaledWidth());
+				}
 			}
 		}
 	}
@@ -201,7 +203,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	public void load(TextureRegion textureRegion, int y, float velocityX) {
 		if(mScale*textureRegion.getWidth() <= ScreenTools.getWidth()) {
 			int xNext = ScreenTools.getWidth();
@@ -228,7 +230,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 				spriteTemp.setPhysicsHandler(physicsHandler);				
 
 				mSpritesNexts.add(spriteTemp);
-				
+
 				mLastSpriteNext = spriteTemp;
 			}
 		} else {
@@ -243,7 +245,7 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 			mSpriteNext.setPhysicsHandler(physicsHandlerNext);
 		}
 	}
-	
+
 	// ===========================================================
 	// Class
 	// ===========================================================
@@ -256,26 +258,26 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 			physicsHandler = sprite.getPhysicsHandler();
 		}
 		physicsHandler.setVelocityX(mVelocityX);
-		
+
 		sprite.setPosition(mSprite.getX()+xOffset,mSprite.getY()+yOffset);
-		
-		
-		
+
+
+
 		mFollowers.add(new Follower(sprite, xOffset, yOffset));
 	}
-	
-	
+
+
 	private class Follower {
 		private Sprite sprite;
 		private float xOffset, yOffset;
-		
+
 		public Follower(Sprite sprite, float xOffset, float yOffset) {
 			super();
 			this.sprite = sprite;
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
 		}
-		
+
 		public Sprite getSprite() {
 			return sprite;
 		}
@@ -295,6 +297,6 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 			this.yOffset = yOffset;
 		}
 	}
-	
-	
+
+
 }

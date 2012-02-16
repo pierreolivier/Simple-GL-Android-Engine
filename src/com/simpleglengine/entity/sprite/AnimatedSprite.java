@@ -14,13 +14,13 @@ public class AnimatedSprite extends Sprite {
 	protected TextureRegion [] mTexturesRegions;
 	protected int mCurrentTexture;
 	protected double mDuration, mLastChange;
-	
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	public AnimatedSprite(TextureRegion [] texturesRegions, int x, int y, double duration) {
 		super(texturesRegions[0], x, y);
-		
+
 		this.mTexturesRegions = texturesRegions;
 		this.mCurrentTexture = 0;
 		this.mDuration = duration;
@@ -36,20 +36,22 @@ public class AnimatedSprite extends Sprite {
 	@Override
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
-		
-		if(System.currentTimeMillis() - mLastChange >= mDuration) {			
-			mTextureRegion = mTexturesRegions[mCurrentTexture];
-			
-			mLastChange = System.currentTimeMillis();
-			
-			mCurrentTexture++;
-			if(mCurrentTexture >= mTexturesRegions.length) mCurrentTexture = 0;
+
+		if(!mPause) {
+			if(System.currentTimeMillis() - mLastChange >= mDuration) {			
+				mTextureRegion = mTexturesRegions[mCurrentTexture];
+
+				mLastChange = System.currentTimeMillis();
+
+				mCurrentTexture++;
+				if(mCurrentTexture >= mTexturesRegions.length) mCurrentTexture = 0;
+			}
 		}
 	}
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	
-	
+
+
+
 }

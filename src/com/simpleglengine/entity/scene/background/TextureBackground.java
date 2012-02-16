@@ -21,7 +21,7 @@ public class TextureBackground extends ColorBackground implements IEntity {
 	//private boolean mRepeatX, mRepeatY;
 	//private float mXMin, mXMax, mYMin, mYMax;
 	protected SpriteBatch mSpriteBatch = null;
-	
+
 	protected Sprite mSprite = null;
 
 	// ===========================================================
@@ -29,7 +29,7 @@ public class TextureBackground extends ColorBackground implements IEntity {
 	// ===========================================================
 	public TextureBackground(TextureRegion textureRegion, int x, int y) {
 		super(0.0f, 0.0f, 0.0f, 1.0f);
-		
+
 		this.mSprite = new Sprite(textureRegion, x, y);
 	}
 	public TextureBackground(TextureRegion textureRegion, float mXMin, float mXMax, float mYMin, float mYMax) {
@@ -72,13 +72,13 @@ public class TextureBackground extends ColorBackground implements IEntity {
 		super.onDraw(gl);
 
 		gl.glDisable(GL10.GL_BLEND);
-		
+
 		if(mSpriteBatch != null)
 			this.mSpriteBatch.onDraw(gl);
 		else if (mSprite != null)
 			this.mSprite.onDraw(gl);
-			
-		
+
+
 		gl.glEnable(GL10.GL_BLEND);
 	}
 
@@ -86,16 +86,18 @@ public class TextureBackground extends ColorBackground implements IEntity {
 	public void onUpdate(float alpha) {
 		super.onUpdate(alpha);
 
-		if(mSpriteBatch != null)
-			this.mSpriteBatch.onUpdate(alpha);
-		else if (mSprite != null)
-			this.mSprite.onUpdate(alpha);
-		
+		if(!mPause) {
+			if(mSpriteBatch != null)
+				this.mSpriteBatch.onUpdate(alpha);
+			else if (mSprite != null)
+				this.mSprite.onUpdate(alpha);
+		}
+
 	}
-	
+
 	public void onLoadSurface(GL10 gl) {
 		super.onLoadSurface(gl);
-		
+
 		if(mSpriteBatch != null)
 			this.mSpriteBatch.onLoadSurface(gl);
 		else if (mSprite != null)

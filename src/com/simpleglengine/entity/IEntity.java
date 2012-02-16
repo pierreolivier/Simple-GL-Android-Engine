@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 public interface IEntity {
 	public void setScale(float scale);
 	public float getScale();
+	public void setPause(boolean pause);
+	public boolean isPaused();
 	
 	public void onLoadSurface(GL10 gl);
 	

@@ -16,6 +16,7 @@ public class ColorBackground implements IEntity {
 	// ===========================================================
 	protected float mR, mG, mB, mA;
 	protected boolean mExecuted;
+	protected boolean mPause;
 	
 	// ===========================================================
 	// Constructors
@@ -77,6 +78,16 @@ public class ColorBackground implements IEntity {
 	public boolean onTouch(MotionEvent event) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setPause(boolean pause) {
+		this.mPause = pause;
+	}
+	@Override
+	public boolean isPaused() {
+		// TODO Auto-generated method stub
+		return mPause;
 	}
 	
 	// ===========================================================

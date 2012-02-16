@@ -31,6 +31,8 @@ public class Scene implements IEntity {
 
 	protected Menu mMenu;
 
+	protected boolean mPause;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================s
@@ -66,6 +68,7 @@ public class Scene implements IEntity {
 		return mScale;
 	}
 
+
 	public void setBackground(IEntity pEntity) {
 		this.mBackground = pEntity;
 	}
@@ -77,6 +80,16 @@ public class Scene implements IEntity {
 
 	public void setMenu(Menu mMenu) {
 		this.mMenu = mMenu;
+	}
+
+	@Override
+	public void setPause(boolean pause) {
+		this.mPause = pause;
+	}
+
+	@Override
+	public boolean isPaused() {
+		return mPause;
 	}
 
 	// ===========================================================
@@ -112,21 +125,22 @@ public class Scene implements IEntity {
 
 	@Override
 	public void onUpdate(float alpha) {
-		if(this.mBackground != null)
-			this.mBackground.onUpdate(alpha);
+		if(!mPause) {
+			if(this.mBackground != null)
+				this.mBackground.onUpdate(alpha);
 
-		for(IEntity pEntity : this.mChildren) {
-			pEntity.onUpdate(alpha);
+			for(IEntity pEntity : this.mChildren) {
+				pEntity.onUpdate(alpha);
+			}
+
+			if(this.mMenu != null && this.mMenu.isShow())
+				this.mMenu.onUpdate(alpha);
 		}
-
-		if(this.mMenu != null && this.mMenu.isShow())
-			this.mMenu.onUpdate(alpha);
-
 	}
 
 	@Override
 	public boolean onTouch(MotionEvent event) {
-		
+
 		if(this.mMenu != null && this.mMenu.isShow())
 			return this.mMenu.onTouch(event);
 		else {
@@ -163,6 +177,8 @@ public class Scene implements IEntity {
 	public void detachChild(IEntity pEntity) {
 		this.mChildren.remove(pEntity);
 	}
+
+
 
 
 

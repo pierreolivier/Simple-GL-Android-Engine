@@ -13,7 +13,6 @@ public class Texture {
 	// Fields
 	// ===========================================================
 	private int mTextureId;
-	//private FloatBuffer mTextureBuffer;
 	
 	private int mWidth, mHeight;
 	
@@ -28,29 +27,6 @@ public class Texture {
 		this.mWidth = width;
 		this.mHeight = height;
 		
-		// Set coordinates on shape
-		
-		/*
-		float textureCoordinates[] = {
-				0.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				1.0f, 1.0f 
-		};
-		
-		float textureCoordinates[] = {
-				0.5f, 0.5f,
-				0.5f, 1.0f,
-				1.0f, 0.5f,
-				1.0f, 1.0f 
-		};
-		
-	
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(textureCoordinates.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		this.mTextureBuffer = byteBuffer.asFloatBuffer();
-		this.mTextureBuffer.put(textureCoordinates);
-		this.mTextureBuffer.position(0);*/
 	}
 
 	// ===========================================================
@@ -59,10 +35,6 @@ public class Texture {
 	public int getTextureId() {
 		return mTextureId;
 	}
-	/*
-	public FloatBuffer getTextureBuffer() {
-		return mTextureBuffer;
-	}*/
 
 	public int getWidth() {
 		return mWidth;

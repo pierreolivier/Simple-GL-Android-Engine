@@ -29,17 +29,18 @@ public abstract class Shape implements IEntity {
 	protected int mRotation;
 	protected int mXRotationCenter, mYRotationCenter;
 	protected float mR, mG, mB, mA;
-	
-	protected FloatBuffer mVertexBuffer;
-	protected float [] mVertex = null, mNoScaledVertex = null;
+	protected boolean mPause;
+
+	//protected FloatBuffer mVertexBuffer;
+	//protected float [] mVertex = null, mNoScaledVertex = null;
 	//protected Texture mTexture = null;
 	protected GLBuffer mBuffer = null;
-	
+
 	protected float mScale;
 	protected boolean mPostRescale;
 
 	protected PhysicsHandler mPhysicsHandler = null;
-	
+
 	protected List <IEntityModifier> mEntityModifier;
 	private IEntityModifier mEntityModifierMarkToBeRemoved;
 	// ===========================================================
@@ -47,7 +48,7 @@ public abstract class Shape implements IEntity {
 	// ===========================================================
 	protected Shape(int x, int y, float width, float height) {
 		super();
-		
+
 		this.mRotation = 0;
 		this.mXRotationCenter = 0;
 		this.mYRotationCenter = 0;
@@ -59,24 +60,34 @@ public abstract class Shape implements IEntity {
 		this.mG = 1.0f;
 		this.mB = 1.0f;
 		this.mA = 1.0f;
-		
+
 		this.mScale = 1;
 		this.mPostRescale = false;
-		
+
 		this.mEntityModifier = new ArrayList<IEntityModifier>();
 		this.mEntityModifierMarkToBeRemoved = null;
 	}
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	
+	
 	public PhysicsHandler getPhysicsHandler() {
 		return mPhysicsHandler;
 	}
+	public boolean isPaused() {
+		return mPause;
+	}
+	public void setPause(boolean mPause) {
+		this.mPause = mPause;
+	}
+
 	public void setPhysicsHandler(PhysicsHandler mPhysicsHandler) {
 		this.mPhysicsHandler = mPhysicsHandler;
 	}
-	
+
 	public float getX() {
 		return mX;
 	}
@@ -101,7 +112,7 @@ public abstract class Shape implements IEntity {
 	public float getScaledHeight() {
 		return getHeight()*mScale;
 	}
-	
+
 	public int getRotation() {
 		return mRotation;
 	}
@@ -122,29 +133,31 @@ public abstract class Shape implements IEntity {
 		this.mB = b;
 		this.mA = a;
 	}
-	
+
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	public void onUpdate(float alpha) {
-		if(this.mPhysicsHandler != null)
-			this.mPhysicsHandler.onUpdate(alpha);
-		
-		if(mEntityModifier.size() > 0) {
-			for(IEntityModifier entityModifier : mEntityModifier) {
-				entityModifier.onUpdate(this, alpha);
-				
-				if(entityModifier.isFinished())
-					this.mEntityModifierMarkToBeRemoved = entityModifier;
+		if(!mPause) {
+			if(this.mPhysicsHandler != null)
+				this.mPhysicsHandler.onUpdate(alpha);
+
+			if(mEntityModifier.size() > 0) {
+				for(IEntityModifier entityModifier : mEntityModifier) {
+					entityModifier.onUpdate(this, alpha);
+
+					if(entityModifier.isFinished())
+						this.mEntityModifierMarkToBeRemoved = entityModifier;
+				}
+				if(mEntityModifierMarkToBeRemoved != null) {
+					removeEntityModifier(mEntityModifierMarkToBeRemoved);
+					this.mEntityModifierMarkToBeRemoved = null;
+				}			
 			}
-			if(mEntityModifierMarkToBeRemoved != null) {
-				removeEntityModifier(mEntityModifierMarkToBeRemoved);
-				this.mEntityModifierMarkToBeRemoved = null;
-			}			
 		}
 	}
-	
+
 	@Override
 	public boolean onTouch(MotionEvent event) {		
 		return false;
@@ -156,14 +169,14 @@ public abstract class Shape implements IEntity {
 	protected void loadVertexBuffer(float [] vertex) {
 		this.mVertex = vertex;
 		this.mNoScaledVertex = this.mVertex.clone();
-		
+
 		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertex.length * 4);
 		byteBuffer.order(ByteOrder.nativeOrder());
 		this.mVertexBuffer = byteBuffer.asFloatBuffer();
 		this.mVertexBuffer.put(vertex);
 		this.mVertexBuffer.position(0);
 	}*/
-	
+
 	public void translate(float dX, float dY) {
 		this.mX += dX;
 		this.mY += dY;
@@ -174,7 +187,7 @@ public abstract class Shape implements IEntity {
 	public void translateY(float dY) {
 		this.mY += dY;
 	}
-	
+
 	private boolean collidesWithPoint(float x, float y) {
 		if(x >= getX() && x <= getX()+getScaledWidth() &&
 				y >= getY() && y <= getY()+getScaledHeight() ) {
@@ -184,14 +197,14 @@ public abstract class Shape implements IEntity {
 	}
 	public boolean collidesWith(Shape shape) {
 		if( collidesWithPoint(shape.getX(),shape.getY()) ||            
-			collidesWithPoint(shape.getX(),shape.getY()+getScaledHeight()) ||  	
-			collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()) ||  	
-			collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()+getScaledHeight())) {
+				collidesWithPoint(shape.getX(),shape.getY()+getScaledHeight()) ||  	
+				collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()) ||  	
+				collidesWithPoint(shape.getX()+getScaledWidth(),shape.getY()+getScaledHeight())) {
 			return true;
 		} else
 			return false;
 	}
-	
+
 	public void addEntityModifier(IEntityModifier entityModifier) {
 		this.mEntityModifier.add(entityModifier);
 	}	
@@ -201,5 +214,5 @@ public abstract class Shape implements IEntity {
 	public void clearEntityModifier() {
 		this.mEntityModifier.clear();
 	}
-	
+
 }
