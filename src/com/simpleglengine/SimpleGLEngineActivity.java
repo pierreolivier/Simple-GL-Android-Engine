@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -46,7 +47,7 @@ public abstract class SimpleGLEngineActivity extends Activity {
 		mGLView = new OpenGLES10SurfaceView(this);
 		setContentView(mGLView);        
 		mRenderer = mGLView.getRenderer();
-
+		
 		// Loading app
 		//View init fonction in OpenGLES10Renderer
 

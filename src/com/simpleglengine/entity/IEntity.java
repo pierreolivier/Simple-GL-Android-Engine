@@ -14,6 +14,7 @@ public interface IEntity {
 	
 	public void onDraw(GL10 gl);
 	public void onUpdate(float alpha);
+	public abstract void onManagedUpdate(float alpha); 
 	
 	public boolean onTouch(final MotionEvent event);
 }

@@ -71,9 +71,16 @@ public class ColorBackground implements IEntity {
 
 	@Override
 	public void onUpdate(float alpha) {
-		// TODO Auto-generated method stub
-
+		if(!mPause)
+			onManagedUpdate(alpha);
 	}
+	
+	@Override
+	public void onManagedUpdate(float alpha) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public boolean onTouch(MotionEvent event) {
 		// TODO Auto-generated method stub
@@ -89,6 +96,8 @@ public class ColorBackground implements IEntity {
 		// TODO Auto-generated method stub
 		return mPause;
 	}
+
+
 	
 	// ===========================================================
 	// Methods

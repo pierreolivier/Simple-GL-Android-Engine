@@ -135,7 +135,14 @@ public class Scene implements IEntity {
 
 			if(this.mMenu != null && this.mMenu.isShow())
 				this.mMenu.onUpdate(alpha);
+			
+			this.onManagedUpdate(alpha);
 		}
+	}
+	
+	@Override
+	public void onManagedUpdate(float alpha) {
+		
 	}
 
 	@Override
@@ -177,6 +184,8 @@ public class Scene implements IEntity {
 	public void detachChild(IEntity pEntity) {
 		this.mChildren.remove(pEntity);
 	}
+
+
 
 
 

@@ -31,9 +31,6 @@ public abstract class Shape implements IEntity {
 	protected float mR, mG, mB, mA;
 	protected boolean mPause;
 
-	//protected FloatBuffer mVertexBuffer;
-	//protected float [] mVertex = null, mNoScaledVertex = null;
-	//protected Texture mTexture = null;
 	protected GLBuffer mBuffer = null;
 
 	protected float mScale;
@@ -155,27 +152,20 @@ public abstract class Shape implements IEntity {
 					this.mEntityModifierMarkToBeRemoved = null;
 				}			
 			}
+			
+			onManagedUpdate(alpha);
 		}
+	}
+	
+	@Override
+	public void onManagedUpdate(float alpha) {
+		
 	}
 
 	@Override
 	public boolean onTouch(MotionEvent event) {		
 		return false;
 	}
-	// ===========================================================
-	// Methods
-	// ===========================================================
-	/*
-	protected void loadVertexBuffer(float [] vertex) {
-		this.mVertex = vertex;
-		this.mNoScaledVertex = this.mVertex.clone();
-
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertex.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		this.mVertexBuffer = byteBuffer.asFloatBuffer();
-		this.mVertexBuffer.put(vertex);
-		this.mVertexBuffer.position(0);
-	}*/
 
 	public void translate(float dX, float dY) {
 		this.mX += dX;
