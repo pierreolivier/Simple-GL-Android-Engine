@@ -21,6 +21,7 @@ import com.simpleglengine.managers.FontManager;
 import com.simpleglengine.managers.TextureManager;
 import com.simpleglengine.tools.BitmapTools;
 import com.simpleglengine.tools.FPSLogger;
+import com.simpleglengine.tools.GLGraphics;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -194,6 +195,7 @@ public class OpenGLES10Renderer implements Renderer {
 		this.mTextureManager = new TextureManager(context, gl);
 		this.mFontManager = new FontManager(context, gl);
 		this.mAudioManager = new AudioManager(context);
+		GLGraphics.currentGLContext = gl;
 
 		this.mRunOnUpdateThread = new ArrayList<Runnable>();
 
@@ -204,7 +206,8 @@ public class OpenGLES10Renderer implements Renderer {
 		setScene(scene = context.onLoadScene());        
 		context.onLoadComplete();
 
-		scene.onLoadSurface(gl);        
+		scene.onLoadSurface(gl);
+		
 
 		// Init update timer
 		mLastUpdate = System.currentTimeMillis();

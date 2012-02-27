@@ -56,7 +56,8 @@ public class GLBuffer {
 		int [] buffers = new int[1];
 		
 		if(mBufferId != -1) {
-			//gl.glDeleteBuffers(n, buffers, offset)
+			int [] tmp = { mBufferId };
+			gl.glDeleteBuffers(1, tmp, 0);
 		}
 		
 		gl.glGenBuffers(1, buffers, 0);
@@ -73,6 +74,14 @@ public class GLBuffer {
 		gl.glBufferData(GL11.GL_ARRAY_BUFFER, mVertex.length * 4, mBuffer, GL11.GL_DYNAMIC_DRAW);
 		
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+	}
+	
+	public void unloadBuffer(GL11 gl) {
+		if(mBufferId != -1) {
+			int [] tmp = { mBufferId };
+			gl.glDeleteBuffers(1, tmp, 0);
+			mBufferId = -1;
+		}
 	}
 	
 	

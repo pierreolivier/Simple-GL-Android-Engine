@@ -55,6 +55,20 @@ public class Sprite extends Shape {
 	// Getter & Setter
 	// ===========================================================
 
+	public TextureRegion getTextureRegion() {
+		return mTextureRegion;
+	}
+
+	public void setTextureRegion(TextureRegion mTextureRegion) {
+		this.mTextureRegion = mTextureRegion;
+		
+		this.mWidth = mTextureRegion.getWidth();
+		this.mHeight = mTextureRegion.getHeight();
+		
+		setScale(mScale);
+	}
+	
+	
 	public void setScale(float scale) {		
 		float width = mTextureRegion.getWidth(), height = mTextureRegion.getHeight();
 
@@ -80,6 +94,8 @@ public class Sprite extends Shape {
 		this.mVertexBuffer.put(sprite);
 		this.mVertexBuffer.position(0);*/
 	}
+
+
 	@Override
 	public float getScale() {
 		return super.mScale;

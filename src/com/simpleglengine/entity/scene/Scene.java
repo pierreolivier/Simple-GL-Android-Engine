@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,6 +14,8 @@ import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.scene.menu.Menu;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.entity.text.Text;
+import com.simpleglengine.tools.GLGraphics;
+import com.simpleglengine.tools.ScreenTools;
 
 public class Scene implements IEntity {
 
@@ -45,6 +48,8 @@ public class Scene implements IEntity {
 		this.mScale = 1;
 
 		this.mMenu = null;
+		
+		this.mPause = false;
 	}
 
 	// ===========================================================
@@ -128,15 +133,16 @@ public class Scene implements IEntity {
 		if(!mPause) {
 			if(this.mBackground != null)
 				this.mBackground.onUpdate(alpha);
-
+			
+			this.onManagedUpdate(alpha);
+			
 			for(IEntity pEntity : this.mChildren) {
 				pEntity.onUpdate(alpha);
 			}
 
 			if(this.mMenu != null && this.mMenu.isShow())
-				this.mMenu.onUpdate(alpha);
+				this.mMenu.onUpdate(alpha);			
 			
-			this.onManagedUpdate(alpha);
 		}
 	}
 	
@@ -179,10 +185,13 @@ public class Scene implements IEntity {
 	public void attachChild(IEntity pEntity) {
 
 		this.mChildren.add(pEntity);
+		pEntity.setScale(mScale);
 
 	}
 	public void detachChild(IEntity pEntity) {
 		this.mChildren.remove(pEntity);
+		if(pEntity instanceof Shape)
+			((Shape) pEntity).getBuffer().unloadBuffer((GL11) GLGraphics.currentGLContext);
 	}
 
 

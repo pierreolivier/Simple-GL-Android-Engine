@@ -35,6 +35,8 @@ public abstract class Shape implements IEntity {
 
 	protected float mScale;
 	protected boolean mPostRescale;
+	
+
 
 	protected PhysicsHandler mPhysicsHandler = null;
 
@@ -57,9 +59,11 @@ public abstract class Shape implements IEntity {
 		this.mG = 1.0f;
 		this.mB = 1.0f;
 		this.mA = 1.0f;
-
+		
 		this.mScale = 1;
 		this.mPostRescale = false;
+		
+		this.mPause = false;
 
 		this.mEntityModifier = new ArrayList<IEntityModifier>();
 		this.mEntityModifierMarkToBeRemoved = null;
@@ -69,8 +73,9 @@ public abstract class Shape implements IEntity {
 	// Getter & Setter
 	// ===========================================================
 	
-	
-	
+	public GLBuffer getBuffer() {
+		return mBuffer;
+	}
 	public PhysicsHandler getPhysicsHandler() {
 		return mPhysicsHandler;
 	}

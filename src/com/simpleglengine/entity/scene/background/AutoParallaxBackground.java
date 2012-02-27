@@ -122,9 +122,12 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	public void onDraw(GL10 gl) {
 		super.onDraw(gl);
 
-		if(mBackground != null)
+		if(mBackground != null) {
+			gl.glDisable(GL10.GL_BLEND);
 			mBackground.onDraw(gl);
-
+			gl.glEnable(GL10.GL_BLEND);
+		}
+		
 		if(mSprites != null && mSpritesNexts != null) {
 			for(IEntity pEntity : this.mSprites) {
 				pEntity.onDraw(gl);
@@ -250,20 +253,23 @@ public class AutoParallaxBackground extends ColorBackground implements IEntity {
 	// Class
 	// ===========================================================
 	public void addFollower(Sprite sprite, float xOffset, float yOffset) {
-		PhysicsHandler physicsHandler;
-		if(sprite.getPhysicsHandler() == null) {
-			physicsHandler = new PhysicsHandler(sprite);
-			sprite.setPhysicsHandler(physicsHandler);
-		} else {
-			physicsHandler = sprite.getPhysicsHandler();
+		if(mSprite != null) {
+			PhysicsHandler physicsHandler;
+			if(sprite.getPhysicsHandler() == null) {
+				physicsHandler = new PhysicsHandler(sprite);
+				sprite.setPhysicsHandler(physicsHandler);
+			} else {
+				physicsHandler = sprite.getPhysicsHandler();
+			}
+			physicsHandler.setVelocityX(mVelocityX);
+
+			sprite.setPosition(mSprite.getX()+xOffset,mSprite.getY()+yOffset);
+
+
+
+			mFollowers.add(new Follower(sprite, xOffset, yOffset));
+
 		}
-		physicsHandler.setVelocityX(mVelocityX);
-
-		sprite.setPosition(mSprite.getX()+xOffset,mSprite.getY()+yOffset);
-
-
-
-		mFollowers.add(new Follower(sprite, xOffset, yOffset));
 	}
 
 

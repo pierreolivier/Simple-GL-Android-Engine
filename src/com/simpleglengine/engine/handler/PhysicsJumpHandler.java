@@ -18,6 +18,8 @@ public class PhysicsJumpHandler extends PhysicsHandler {
 
 	protected int mMaxJumpsInARow, mJumpsInARow;
 	protected boolean mFalling;
+	
+	protected IPhysicsJumpListener mIPhysicsJumpHandler = null;
 
 	// ===========================================================
 	// Constructors
@@ -31,20 +33,38 @@ public class PhysicsJumpHandler extends PhysicsHandler {
 		this.mMaxJumpsInARow = -1;
 		this.mJumpsInARow = 0;
 	}
+	
+	public PhysicsJumpHandler(Shape shape, IPhysicsJumpListener iPhysicsJumpHandler) {
+		this(shape);
+		
+		this.mIPhysicsJumpHandler = iPhysicsJumpHandler;
+	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
+	public boolean isFalling() {
+		return mFalling;
+	}
+	public boolean isJumping() {
+		return mEnabled;
+	}
+	public float getYMax() {
+		return mYMax;
+	}
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	public void onUpdate(float pSecondsElapsed) {
 		super.onUpdate(pSecondsElapsed);
 		
+		/*
 		if(mEntity.getY() >= mYMax && !mFalling) {
 			stop();
 			mEntity.setY(mYMax);
+		}*/
+		if(mEntity.getY() >= mYMax && mEnabled) {
+			stop();
 		}
 	}
 
@@ -72,8 +92,11 @@ public class PhysicsJumpHandler extends PhysicsHandler {
 			this.mAccelerationY = mJumpAccelerationY;
 
 			this.mEnabled = true;
-			
+
 			this.mJumpsInARow++;
+			
+			if(mIPhysicsJumpHandler != null)
+				mIPhysicsJumpHandler.onJumpStarted();
 		} else if (mMaxJumpsInARow == -1){
 			this.mVelocityX = mJumpVelocityX;
 			this.mVelocityY = mJumpVelocityY;
@@ -81,32 +104,48 @@ public class PhysicsJumpHandler extends PhysicsHandler {
 			this.mAccelerationY = mJumpAccelerationY;
 
 			this.mEnabled = true;
+			
+			if(mIPhysicsJumpHandler != null)
+				mIPhysicsJumpHandler.onJumpStarted();
 		}
 	}
-	public void startFall() {		
-		this.mVelocityX = 0;
-		this.mVelocityY = 0;
-		this.mAccelerationX = 0;
-		this.mAccelerationY = mJumpAccelerationY;
-		
-		this.mJumpsInARow = mMaxJumpsInARow;
-		
-		this.mFalling = true;
-		
-		this.mEnabled = true;		
+	public void startFall() {
+		if(mJumpsInARow < mMaxJumpsInARow) {
+			this.mVelocityX = 0;
+			this.mVelocityY = 0;
+			this.mAccelerationX = 0;
+			this.mAccelerationY = mJumpAccelerationY;
+
+			this.mJumpsInARow = mMaxJumpsInARow;
+
+			this.mFalling = true;
+
+			this.mEnabled = true;
+			
+			if(mIPhysicsJumpHandler != null)
+				mIPhysicsJumpHandler.onFallingStarted();
+		}
 	}
-	
+
 	//Call this to rejump !!!!
 	public void stop() {
 		this.mEnabled = false;
 
 		this.mFalling = false;
 		this.mJumpsInARow = 0;
+
+		mEntity.setY(mYMax);
+		
+		if(mIPhysicsJumpHandler != null)
+			mIPhysicsJumpHandler.onJumpFinished();
 	}
 
 	public void resetXVelocity() {
 		this.mVelocityX = 0;
 		this.mAccelerationX = 0;
+	}
+	public void resetYVelocity() {
+		this.mVelocityY = 0;
 	}
 
 
