@@ -13,6 +13,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.simpleglengine.engine.opengl.Texture;
+import com.simpleglengine.engine.opengl.TextureRegion;
 import com.simpleglengine.entity.scene.Scene;
 import com.simpleglengine.entity.sprite.Sprite;
 import com.simpleglengine.managers.AudioManager;
@@ -51,7 +52,8 @@ public class OpenGLES10Renderer implements Renderer {
 	public static int height = 480;
 
 	// GL context
-	private GL10 mGL;
+	// GL10 mGL;
+	private boolean mReady;
 
 	// Managers
 	private TextureManager mTextureManager;
@@ -78,6 +80,7 @@ public class OpenGLES10Renderer implements Renderer {
 		this.context = context;
 
 		this.mScene = null;
+		this.mReady = false;
 	}	
 
 	// ===========================================================
@@ -136,14 +139,13 @@ public class OpenGLES10Renderer implements Renderer {
 		mScene.onDraw(gl);
 
 		// Update phase
-		//if(!mPause) {
 		if(mScene.getMenu() != null && mScene.getMenu().isShow() && mScene.getMenu().isAutoPause())
 			mPause = true;
 		if(mScene.getMenu() != null && !mScene.getMenu().isShow() && mScene.getMenu().isAutoPause())
 			mPause = false;
 		if(!mPause)
 			mScene.onUpdate((float) (alpha/1000.0f));
-		//}
+
 
 		// RunOnUpdateThread phase
 		if(mRunOnUpdateThread.size() > 0) {
@@ -176,10 +178,11 @@ public class OpenGLES10Renderer implements Renderer {
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		gl.glLoadIdentity();
 
-
-
 		// Init engine
-		init(gl);
+		if(!mReady && width > height)
+			init(gl);
+		else if(mReady && width > height)
+			reinit(gl);
 
 	}
 
@@ -189,13 +192,13 @@ public class OpenGLES10Renderer implements Renderer {
 	public void init(GL10 gl) {
 		Scene scene;
 
-		// Init vars
-		this.mGL = gl;		
+		Log.e("init", "init");
 
-		this.mTextureManager = new TextureManager(context, gl);
-		this.mFontManager = new FontManager(context, gl);
-		this.mAudioManager = new AudioManager(context);
+		// Init vars
 		GLGraphics.currentGLContext = gl;
+		this.mTextureManager = new TextureManager(context);
+		this.mFontManager = new FontManager(context);
+		this.mAudioManager = new AudioManager(context);
 
 		this.mRunOnUpdateThread = new ArrayList<Runnable>();
 
@@ -203,15 +206,39 @@ public class OpenGLES10Renderer implements Renderer {
 
 		// Loading phase
 		context.onLoadRessources();
-		setScene(scene = context.onLoadScene());        
+		mScene = context.onLoadScene();        
 		context.onLoadComplete();
 
-		scene.onLoadSurface(gl);
-		
+		mScene.onLoadSurface(gl);
+
 
 		// Init update timer
 		mLastUpdate = System.currentTimeMillis();
 		mFpsLogger = new FPSLogger();
+
+		mReady = true;
+	}
+	public void reinit(GL10 gl) {
+		// Vars
+		ArrayList<TextureRegion> textureRegionsBack = mTextureManager.getTextureRegions();
+		ArrayList<TextureRegion> textureRegionsNew = null;
+		
+		// Init vars
+		GLGraphics.currentGLContext = gl;
+		this.mTextureManager = new TextureManager(context);
+		this.mFontManager = new FontManager(context);
+		this.mAudioManager = new AudioManager(context);
+
+		// Loading phase
+		context.onLoadRessources();
+		textureRegionsNew = mTextureManager.getTextureRegions();
+		mScene.onLoadSurface(gl);
+		mScene.onReloadTextureRegion(textureRegionsBack, textureRegionsNew);
+		
+		
+
+		// Init update timer
+		mLastUpdate = System.currentTimeMillis();
 	}
 
 	public void runOnUpdateThread(Runnable runnable) {

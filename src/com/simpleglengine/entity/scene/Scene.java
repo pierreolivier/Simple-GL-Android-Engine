@@ -1,6 +1,7 @@
 package com.simpleglengine.entity.scene;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -9,6 +10,7 @@ import javax.microedition.khronos.opengles.GL11;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.simpleglengine.engine.opengl.TextureRegion;
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 import com.simpleglengine.entity.scene.menu.Menu;
@@ -48,7 +50,7 @@ public class Scene implements IEntity {
 		this.mScale = 1;
 
 		this.mMenu = null;
-		
+
 		this.mPause = false;
 	}
 
@@ -133,22 +135,22 @@ public class Scene implements IEntity {
 		if(!mPause) {
 			if(this.mBackground != null)
 				this.mBackground.onUpdate(alpha);
-			
+
 			this.onManagedUpdate(alpha);
-			
+
 			for(IEntity pEntity : this.mChildren) {
 				pEntity.onUpdate(alpha);
 			}
 
 			if(this.mMenu != null && this.mMenu.isShow())
 				this.mMenu.onUpdate(alpha);			
-			
+
 		}
 	}
-	
+
 	@Override
 	public void onManagedUpdate(float alpha) {
-		
+
 	}
 
 	@Override
@@ -192,6 +194,27 @@ public class Scene implements IEntity {
 		this.mChildren.remove(pEntity);
 		if(pEntity instanceof Shape)
 			((Shape) pEntity).getBuffer().unloadBuffer((GL11) GLGraphics.currentGLContext);
+	}
+
+	public void onReloadTextureRegion(ArrayList<TextureRegion> textureRegionsBack,	ArrayList<TextureRegion> textureRegionsNew) {
+
+		for(IEntity pEntity : this.mChildren) {
+			if(pEntity instanceof Sprite) {
+				Sprite sprite = (Sprite) pEntity;
+				int index = getIndex(textureRegionsBack, sprite.getTextureRegion());
+				if(index != -1)
+					sprite.setTextureRegion(textureRegionsNew.get(index));
+			}
+
+		}
+	}
+
+	private int getIndex(ArrayList<TextureRegion> textureRegions, TextureRegion textureRegion) {
+		for(int i = 0; i < textureRegions.size(); i++) {
+			if(textureRegions.get(i) == textureRegion)
+				return i;
+		}
+		return -1;
 	}
 
 

@@ -10,6 +10,7 @@ import android.opengl.GLUtils;
 import com.simpleglengine.engine.opengl.GLBuffer;
 import com.simpleglengine.engine.opengl.Texture;
 import com.simpleglengine.tools.BitmapTools;
+import com.simpleglengine.tools.GLGraphics;
 
 public class BufferManager {
 	// ===========================================================
@@ -19,21 +20,17 @@ public class BufferManager {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private GL11 gl;
-
 	private int mBufferNumber;
 	private int[] mBuffers;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public BufferManager(Context context, GL10 gl) {
+	public BufferManager(Context context) {
 		super();
 
 		this.mBufferNumber = 0;
 		this.mBuffers = new int[0];
-		
-		this.gl = (GL11) gl;
 		
 		BitmapTools.setContext(context);
 	}
@@ -50,6 +47,7 @@ public class BufferManager {
 	// Methods
 	// ===========================================================
 	public GLBuffer loadBuffer(float [] vertex) {
+		GL11 gl = (GL11) GLGraphics.currentGLContext;
 		GLBuffer buffer;
 		int [] textures = mBuffers.clone();
 

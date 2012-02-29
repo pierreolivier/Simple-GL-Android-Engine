@@ -83,7 +83,7 @@ public class SpriteBatch extends Sprite {
 		//if(mPostUnbind) {
 		gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		//gl.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+		//gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 		//this.mPostUnbind = false;
 		//}
 

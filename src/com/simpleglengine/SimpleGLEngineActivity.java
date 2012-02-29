@@ -57,8 +57,23 @@ public abstract class SimpleGLEngineActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		mGLView.onPause();
+		
 	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
 
+	}	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+		
+	}
+	
+	
 	@Override
 	protected void onResume() {
 		super.onResume();

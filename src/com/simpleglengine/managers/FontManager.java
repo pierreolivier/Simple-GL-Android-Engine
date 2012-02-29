@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.simpleglengine.engine.opengl.Font;
 import com.simpleglengine.tools.BitmapTools;
+import com.simpleglengine.tools.GLGraphics;
 import com.simpleglengine.tools.TextureFontTools;
 
 public class FontManager {
@@ -19,16 +20,14 @@ public class FontManager {
 	// Fields
 	// ===========================================================
 	private Context mContext;
-	private GL10 mGL;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	public FontManager(Context context, GL10 gl) {
+	public FontManager(Context context) {
 		super();
 
 		this.mContext = context;
-		this.mGL = gl;
 	}
 
 	// ===========================================================
@@ -43,8 +42,8 @@ public class FontManager {
 	// Methods
 	// ===========================================================
 	public Font createFont(String assetsBff) throws IOException {
-		TextureFontTools textureFontTools = new TextureFontTools(mContext, mGL);
-		textureFontTools.LoadFont(assetsBff, mGL);
+		TextureFontTools textureFontTools = new TextureFontTools(mContext, GLGraphics.currentGLContext);
+		textureFontTools.LoadFont(assetsBff, GLGraphics.currentGLContext);
 		
 		return new Font(textureFontTools);
 	}

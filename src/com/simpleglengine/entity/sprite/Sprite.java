@@ -75,9 +75,9 @@ public class Sprite extends Shape {
 		super.mScale = scale;
 
 		float sprite[] = {
-				width*scale, 	0f, 				0,
+				width*scale, 	0f, 			0,
 				width*scale, 	height*scale, 	0,				
-				0f, 			0f, 				0,			
+				0f, 			0f, 			0,			
 				0f, 			height*scale, 	0				
 		};
 
@@ -101,23 +101,6 @@ public class Sprite extends Shape {
 		return super.mScale;
 	}
 	
-	/*
-	public float getWidth() {
-		return mTexture.getWidth();
-	}
-	
-	
-	public float getHeight() {
-		return mTexture.getHeight();
-	}
-	
-	public float getScaledWidth() {
-		return getWidth()*mScale;
-	}
-	public float getScaledHeight() {
-		return getHeight()*mScale;
-	}
-	 */
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
@@ -145,11 +128,6 @@ public class Sprite extends Shape {
 		gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f);
 		gl.glTranslatef(-super.mXRotationCenter*mScale, -super.mYRotationCenter*mScale, 0);
 		
-		//gl.glTranslatef(super.mXRotationCenter, super.mXRotationCenter, 0);
-		//gl.glTranslatef(super.mXRotationCenter+mX, super.mYRotationCenter+mY, 0); //Offset
-		//gl.glTranslatef(super.mXRotationCenter, super.mYRotationCenter, 0); //Offset
-		//gl.glRotatef(this.mRotation, 0.0f, 0.0f, 1.0f); //Rotation en degre ?
-		//gl.glTranslatef(-super.mXRotationCenter, -super.mXRotationCenter, 0); //Milieu + centre de rotation
 		if(GLGraphics.currentTextureId != mTextureRegion.getTexture().getTextureId())
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureRegion.getTexture().getTextureId());
 		GLGraphics.currentTextureId = mTextureRegion.getTexture().getTextureId();
@@ -158,7 +136,6 @@ public class Sprite extends Shape {
 
 		gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mBuffer.getBufferId());
 		gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
-			//gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.mVertexBuffer);
 
 		gl.glColor4f(mR, mG, mB, mA);
 		
