@@ -7,7 +7,7 @@ import com.simpleglengine.engine.opengl.Font;
 import com.simpleglengine.entity.IEntity;
 import com.simpleglengine.entity.Shape;
 
-public class Text extends Shape implements IEntity{
+public class Text extends Shape implements IEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -27,7 +27,7 @@ public class Text extends Shape implements IEntity{
 		this.mFont = font;
 		this.mText = text;
 		
-		
+		this.mBuffer = null;
 	}
 	
 	// ===========================================================

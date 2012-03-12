@@ -148,11 +148,13 @@ public class OpenGLES10Renderer implements Renderer {
 
 
 		// RunOnUpdateThread phase
-		if(mRunOnUpdateThread.size() > 0) {
-			for(Runnable runnable : mRunOnUpdateThread) {
-				runnable.run();
+		synchronized (mRunOnUpdateThread) {
+			if(mRunOnUpdateThread.size() > 0) {
+				for(Runnable runnable : mRunOnUpdateThread) {
+					runnable.run();
+				}
+				mRunOnUpdateThread.clear();
 			}
-			mRunOnUpdateThread.clear();
 		}
 
 		// Log fps
@@ -222,7 +224,7 @@ public class OpenGLES10Renderer implements Renderer {
 		// Vars
 		ArrayList<TextureRegion> textureRegionsBack = mTextureManager.getTextureRegions();
 		ArrayList<TextureRegion> textureRegionsNew = null;
-		
+
 		// Init vars
 		GLGraphics.currentGLContext = gl;
 		this.mTextureManager = new TextureManager(context);
@@ -234,15 +236,18 @@ public class OpenGLES10Renderer implements Renderer {
 		textureRegionsNew = mTextureManager.getTextureRegions();
 		mScene.onLoadSurface(gl);
 		mScene.onReloadTextureRegion(textureRegionsBack, textureRegionsNew);
-		
-		
+
+
 
 		// Init update timer
 		mLastUpdate = System.currentTimeMillis();
 	}
 
 	public void runOnUpdateThread(Runnable runnable) {
-		this.mRunOnUpdateThread.add(runnable);
+		synchronized (mRunOnUpdateThread) {
+			this.mRunOnUpdateThread.add(runnable);
+		}
+
 	}
 
 	public boolean onTouch(MotionEvent event) {

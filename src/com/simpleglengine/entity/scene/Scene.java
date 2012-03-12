@@ -192,8 +192,10 @@ public class Scene implements IEntity {
 	}
 	public void detachChild(IEntity pEntity) {
 		this.mChildren.remove(pEntity);
-		if(pEntity instanceof Shape)
-			((Shape) pEntity).getBuffer().unloadBuffer((GL11) GLGraphics.currentGLContext);
+		if(pEntity instanceof Shape) {
+			if(((Shape) pEntity).getBuffer() != null)
+				((Shape) pEntity).getBuffer().unloadBuffer((GL11) GLGraphics.currentGLContext);
+		}
 	}
 
 	public void onReloadTextureRegion(ArrayList<TextureRegion> textureRegionsBack,	ArrayList<TextureRegion> textureRegionsNew) {
